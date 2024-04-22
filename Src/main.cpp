@@ -134,7 +134,7 @@ private:
 public:
     TicTacToeGame() : crossTurn(true) {
         // Initialisiere Arrays mit Nullpointern
-        for (int i = 0; i < 9; ++i) {
+        for (int i = 0; i < 3; ++i) {
             crosses[i] = nullptr; // Leeres Feld für Kreuze
             circles[i] = nullptr; // Leeres Feld für Kreise
         }
@@ -146,17 +146,23 @@ public:
             return;
         }
         if (crossTurn) {
+            circles[2]->setDark();
         	crosses[2] = crosses[1];
         	crosses[1] = crosses[0];
             crosses[0] = new Cross(pos); // Kreuz an der Position setzen
-            crosses[2]->setDark();
         } else {
+            crosses[2]->setDark();
         	circles[2] = circles[1];
         	circles[1] = circles[0];
-            circles[pos] = new Circle(pos); // Kreis an der Position setzen
-            circles[2]->setDark();
+            circles[0] = new Circle(pos); // Kreis an der Position setzen
         }
         crossTurn = !crossTurn; // Wechsel zwischen Kreuz und Kreis
+        if (crossTurn) {
+        	uart.set("Now Cross dran!\r\n");
+        } else {
+        	uart.set("Now Kreis dran!\r\n");
+        }
+        screenGraphic.clear();
 
         for (int i = 0; i < 3; ++i) {
         	if (crosses[i] != nullptr)
