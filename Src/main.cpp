@@ -161,7 +161,7 @@ public:
 
     // Methode zum Setzen eines Kreuzes oder Kreises an einer bestimmten Position
     void setMove(int pos) {
-        if (pos < 0) {
+        if (pos < 0 || posIsEmpty(pos)) {
             return;
         }
         if (crossTurn) {
@@ -193,6 +193,15 @@ public:
         		circles[i]->draw();
         }
         screenGraphic.refresh();
+    }
+
+    bool posIsEmpty (int pos) {
+    	for(int i = 0; i<3; i++) {
+    		if ((crosses[i] != nullptr && crosses[i]->getBoxNumber() == pos) || (circles[i] != nullptr && circles[i]->getBoxNumber() == pos)) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
     bool getCrossTurn() {
