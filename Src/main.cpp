@@ -120,10 +120,10 @@ public:
     int getRect(int x, int y) const {
         // Berechne den Index des berührten Kastens basierend auf den Koordinaten (x, y)
         int row = y / 160;
-        int col = (x - 160) / 160; // Verschiebe die Hitboxen um einen Schritt nach rechts
+        int col = (x - 160) / 160; // Berechne die Spaltennummer basierend auf der verschobenen x-Koordinate
 
         // Überprüfe, ob die Koordinaten innerhalb des Spielfelds liegen
-        if (row >= 0 && row <= 2 && col >= 0 && col <= 2) {
+        if (row >= 0 && row <= 2 && col >= 0 && col <= 2 && x >= 160) {
             // Berechne den Index des Kastens und gib ihn zurück
             return row * 3 + col;
         } else {
@@ -236,6 +236,7 @@ int main() {
 
     // Spielfeld zeichnen
     ticTacToeGrid.draw();
+    screenGraphic.refresh();
 
     while (!game.checkWinner()) {
 
