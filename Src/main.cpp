@@ -131,6 +131,16 @@ private:
     Circle* circles[3]; // Array für Kreise
     bool crossTurn; // Variable zur Speicherung, ob der Zug für Kreuze oder Kreise ist
 
+    bool inArray(int element, const int (*array)[3]) const {
+        for (int i = 0; i < 3; i++) {
+            if (element == (*array)[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 public:
     TicTacToeGame() : crossTurn(true) {
         // Initialisiere Arrays mit Nullpointern
@@ -172,11 +182,37 @@ public:
         }
     }
 
+    bool getCrossTurn() {
+    	return crossTurn;
+    }
+
     // Methode zur Überprüfung auf Gewinner
     bool checkWinner() const {
+           // Gewinnkombinationen
+            const int winCombos[8][3] = {
+                {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // Horizontale Linien
+                {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, // Vertikale Linien
+                {0, 4, 8}, {2, 4, 6} // Diagonale Linien
+            };
 
-        return false; // Kein Gewinner gefunden
-    }
+            // Überprüfe auf Gewinner in Kreuzen und Kreisen
+            for (int i = 0; i < 8; ++i) {
+                //int a = winCombos[i][0], b = winCombos[i][1], c = winCombos[i][2];
+                /*if ((crosses[a] && crosses[a]->getBoxNumber() == crosses[b]->getBoxNumber() && crosses[a]->getBoxNumber() == crosses[c]->getBoxNumber()) ||
+                    (circles[a] && circles[a]->getBoxNumber() == circles[b]->getBoxNumber() && circles[a]->getBoxNumber() == circles[c]->getBoxNumber())) {
+                    return true; // Gewinner gefunden
+                }*/
+                if (inArray(crosses[0]->getBoxNumber(), &winCombos[i]) && inArray(crosses[1]->getBoxNumber(), &winCombos[i]) && inArray(crosses[2]->getBoxNumber(), &winCombos[i])) {
+                	return true;
+                }
+                if (inArray(circles[0]->getBoxNumber(), &winCombos[i]) && inArray(circles[1]->getBoxNumber(), &winCombos[i]) && inArray(circles[2]->getBoxNumber(), &winCombos[i])) {
+                    return true;
+                }
+
+            }
+
+            return false; // Kein Gewinner gefunden
+        }
 };
 
 int main() {
@@ -184,34 +220,33 @@ int main() {
     Grid ticTacToeGrid;
     TicTacToeGame game;
 
-    while (1) {
-        // Spielfeld zeichnen
-        ticTacToeGrid.draw();
+    while (!game.checkWinner()) {
+            // Spielfeld zeichnen
+            ticTacToeGrid.draw();
 
-        // Prüfen und anzeigen von Pointer-Ereignissen
-        Pointer::Data point = pointer.get();
+            // Prüfen und anzeigen von Pointer-Ereignissen
+            Pointer::Data point = pointer.get();
 
-        if (point.flags) {
-            if (point.flags & Pointer::Data::CTRL_DWN) {
-                char buffer[100]; // Puffer für den formatierten String
-                 int pos = ticTacToeGrid.getRect(point.posX, point.posY);
+            if (point.flags) {
+                if (point.flags & Pointer::Data::CTRL_DWN) {
+                    char buffer[100]; // Puffer für den formatierten String
+                     int pos = ticTacToeGrid.getRect(point.posX, point.posY);
 
-                 // Formatierung des Strings in den Puffer
-                 snprintf(buffer, sizeof(buffer), "Pos:%4d,%4d Delta: %4d Event:0x%02x Field:%4d\r\n", point.posX, point.posY, point.delta, point.flags, pos);
+                     // Formatierung des Strings in den Puffer
+                     snprintf(buffer, sizeof(buffer), "Pos:%4d,%4d Delta: %4d Event:0x%02x Field:%4d\r\n", point.posX, point.posY, point.delta, point.flags, pos);
 
-                 // Übergeben des formatierten Strings an uart.set
-                 uart.set(buffer);
-                game.setMove(pos);
+                     // Übergeben des formatierten Strings an uart.set
+                     uart.set(buffer);
+                    game.setMove(pos);
+                }
             }
-        }
-        if (game.checkWinner()) {
-        	uart.set("WINNER!");
+
+            // Bildschirm aktualisieren
+            System::delayMilliSec(5);
+            screenGraphic.refresh();
         }
 
-        // Bildschirm aktualisieren
-        System::delayMilliSec(5);
-        screenGraphic.refresh();
-    }
-
+    ticTacToeGrid.draw();
+    uart.set(game.getCrossTurn() ? "Circle is WINNER!" : "Cross is WINNER!\r\n\n");
     return 0;
 }
