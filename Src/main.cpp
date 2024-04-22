@@ -62,6 +62,10 @@ public:
     void setDark() {
     	farbe = Color::DarkRed;
     }
+    void del() {
+    	farbe = Color::Black;
+    	draw();
+    }
 };
 
 // Klasse für das Zeichnen eines Kreises
@@ -92,6 +96,11 @@ public:
 
     void setDark() {
     	farbe = Color::DarkBlue;
+    }
+
+    void del() {
+    	farbe = Color::Black;
+    	draw();
     }
 };
 
@@ -147,12 +156,16 @@ public:
         }
         if (crossTurn) {
             circles[2]->setDark();
+        	if (crosses[2] != nullptr)
+        		crosses[2]->del();
         	crosses[2] = crosses[1];
         	crosses[1] = crosses[0];
             crosses[0] = new Cross(pos); // Kreuz an der Position setzen
         } else {
             crosses[2]->setDark();
-        	circles[2] = circles[1];
+            if (circles[2] != nullptr)
+            	circles[2]->del();
+            circles[2] = circles[1];
         	circles[1] = circles[0];
             circles[0] = new Circle(pos); // Kreis an der Position setzen
         }
@@ -162,7 +175,6 @@ public:
         } else {
         	uart.set("Now Kreis dran!\r\n");
         }
-        screenGraphic.clear();
 
         for (int i = 0; i < 3; ++i) {
         	if (crosses[i] != nullptr)
@@ -207,8 +219,6 @@ int main() {
         if (game.checkWinner()) {
         	uart.set("WINNER!");
         }
-
-        // Bildschirm aktualisieren
         System::delayMilliSec(5);
         screenGraphic.refresh();
     }
