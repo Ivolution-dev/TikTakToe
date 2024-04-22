@@ -192,6 +192,7 @@ public:
         	if (circles[i] != nullptr)
         		circles[i]->draw();
         }
+        screenGraphic.refresh();
     }
 
     bool getCrossTurn() {
@@ -232,9 +233,11 @@ int main() {
     Grid ticTacToeGrid;
     TicTacToeGame game;
 
+    // Spielfeld zeichnen
+    ticTacToeGrid.draw();
+
     while (!game.checkWinner()) {
-            // Spielfeld zeichnen
-            ticTacToeGrid.draw();
+
 
             // Prüfen und anzeigen von Pointer-Ereignissen
             Pointer::Data point = pointer.get();
@@ -252,13 +255,8 @@ int main() {
                     game.setMove(pos);
                 }
             }
-
-            // Bildschirm aktualisieren
-            System::delayMilliSec(5);
-            screenGraphic.refresh();
         }
 
-    ticTacToeGrid.draw();
     uart.set(game.getCrossTurn() ? "Circle is WINNER!" : "Cross is WINNER!\r\n\n");
     return 0;
 }
