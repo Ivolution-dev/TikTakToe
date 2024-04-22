@@ -46,13 +46,24 @@ C:/EmbSysLib-01.04.00/Src/Hardware/Peripheral/Display/DisplayGraphic_OTM8009A.cp
 C:/EmbSysLib-01.04.00/Src/Hardware/Peripheral/Display/DisplayGraphic_OTM8009A.cpp:290:6:virtual void EmbSysLib::Hw::DisplayGraphic_OTM8009Aram::setPixel(WORD)	16	static
 C:/EmbSysLib-01.04.00/Src/Hardware/Peripheral/Touch/Touch_FT6206.cpp:23:1:EmbSysLib::Hw::Touch_FT6206::Touch_FT6206(EmbSysLib::Hw::I2Cmaster&, WORD, WORD, EmbSysLib::Hw::Touch::Orientation)	32	static
 C:/EmbSysLib-01.04.00/Src/Hardware/Peripheral/Touch/Touch_FT6206.cpp:38:6:virtual void EmbSysLib::Hw::Touch_FT6206::update()	24	static
-C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:34:10:virtual void Grid::draw() const	40	static
-C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:48:5:int main()	16	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:28:7:constexpr GraphicsObject::GraphicsObject()	16	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:39:5:Cross::Cross(int)	16	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:41:10:virtual void Cross::draw() const	64	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:62:10:void Cross::setDark()	16	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:73:5:Circle::Circle(int)	16	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:75:10:virtual void Circle::draw() const	40	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:93:10:void Circle::setDark()	16	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:101:10:virtual void Grid::draw() const	40	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:111:9:int Grid::getRect(int, int) const	32	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:135:5:TicTacToeGame::TicTacToeGame()	24	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:144:10:void TicTacToeGame::setMove(int)	32	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:170:10:bool TicTacToeGame::checkWinner() const	16	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:176:5:int main()	184	static
 C:/EmbSysLib-01.04.00/Src/Std/Sequence.h:47:9:EmbSysLib::Std::Sequence<T>::Item::Item(EmbSysLib::Std::Sequence<T>*) [with T = EmbSysLib::Hw::Timer::Task]	16	static
 C:/EmbSysLib-01.04.00/Src/Std/Std.h:62:29:T EmbSysLib::Std::RANGE(T, T, T) [with T = long unsigned int]	24	static
 C:/EmbSysLib-01.04.00/Src/Hardware/Common/I2C/I2Cmaster.h:112:14:void EmbSysLib::Hw::I2Cmaster::Device::read(A, T*) [with A = unsigned char; T = EmbSysLib::Hw::Touch_FT6206::TscData]	40	static
 C:/EmbSysLib-01.04.00/Src/Std/Sequence.h:90:10:BYTE EmbSysLib::Std::Sequence<T>::add(T*) [with T = EmbSysLib::Hw::Timer::Task]	24	static
 .././../../../Src/Board/STM32F769-Discovery/ReportHandler.h:11:7:myReportHandler::~myReportHandler()	16	static
-C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:56:1:void __static_initialization_and_destruction_0(int, int)	368	static
-C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:56:1:cpp)	8	static
-C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:56:1:cpp)	8	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:211:1:void __static_initialization_and_destruction_0(int, int)	368	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:211:1:cpp)	8	static
+C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/main.cpp:211:1:cpp)	8	static
