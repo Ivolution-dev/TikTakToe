@@ -31,3 +31,6 @@
 *.exe
 *.out
 *.app
+
+# Debug
+Project/STM32F769-Discovery/Debug/*
