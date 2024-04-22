@@ -232,6 +232,7 @@ int main() {
     // Instanzen von Grid und TicTacToeGame erstellen
     Grid ticTacToeGrid;
     TicTacToeGame game;
+    screenGraphic.clear();
 
     // Spielfeld zeichnen
     ticTacToeGrid.draw();
