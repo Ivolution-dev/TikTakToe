@@ -293,7 +293,7 @@ public:
             int pos = rand() % 9;
 
             // Check if the randomly generated position is empty
-            if (posIsEmpty(pos)) {
+            if (!posIsEmpty(pos)) {
             	// Return the valid empty position
                 return pos;
             }
