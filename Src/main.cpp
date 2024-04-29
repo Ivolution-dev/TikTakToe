@@ -14,6 +14,8 @@ Usage:    A graphics test output is displayed
 //*******************************************************************
 #include <stdio.h>
 #include "math.h"
+#include <cstdlib> // For rand() and srand()
+#include <ctime>   // For srand() initialization
 
 // Definitionen für EmbSysLib und andere erforderliche Header einfügen
 #include "EmbSysLib.h"
@@ -149,6 +151,40 @@ private:
         return false;
     }
 
+    // Function to simulate placing the AI's symbol at a position and check for a winning move
+    bool simulateWinningMove(int pos) {
+        // Store the current state of the grid
+        Cross* crossesCopy[3];
+        Circle* circlesCopy[3];
+        for (int i = 0; i < 3; ++i) {
+            crossesCopy[i] = crosses[i];
+            circlesCopy[i] = circles[i];
+        }
+
+        // Simulate placing AI's symbol at the specified position
+        if (crossTurn) {
+            Cross* newCross = new Cross(pos);
+            crosses[pos] = newCross;
+        } else {
+            Circle* newCircle = new Circle(pos);
+            circles[pos] = newCircle;
+        }
+
+        // Check if the AI wins with this move
+        bool win = checkWinner();
+
+        // Restore the original state of the grid for AI's move
+        for (int i = 0; i < 3; ++i) {
+        	crosses[i] = crossesCopy[i];
+            circles[i] = circlesCopy[i];
+        }
+
+        return win;
+    }
+
+
+
+
 
 public:
     TicTacToeGame() : crossTurn(true) {
@@ -161,7 +197,7 @@ public:
 
     // Methode zum Setzen eines Kreuzes oder Kreises an einer bestimmten Position
     void setMove(int pos) {
-        if (pos < 0 || posIsEmpty(pos)) {
+    	if (pos < 0 || posIsEmpty(pos)) {
             return;
         }
         if (crossTurn) {
@@ -192,6 +228,21 @@ public:
         	if (circles[i] != nullptr)
         		circles[i]->draw();
         }
+
+        char buffer[100]; // Puffer für den formatierten String
+
+        // Formatierung des Strings in den Puffer
+        snprintf(buffer, sizeof(buffer), "Crosses: %1d %1d %1d\r\nCircles: %1d %1d %1d\r\n",
+            			(crosses[0] == nullptr) ? -1 :crosses[0]->getBoxNumber(),
+            			(crosses[1] == nullptr) ? -1 :crosses[1]->getBoxNumber(),
+            			(crosses[2] == nullptr) ? -1 :crosses[2]->getBoxNumber(),
+            			(circles[0] == nullptr) ? -1 :circles[0]->getBoxNumber(),
+            			(circles[1] == nullptr) ? -1 :circles[1]->getBoxNumber(),
+            			(circles[2] == nullptr) ? -1 :circles[2]->getBoxNumber());
+
+        // Übergeben des formatierten Strings an uart.set
+        uart.set(buffer);
+
         screenGraphic.refresh();
     }
 
@@ -219,11 +270,6 @@ public:
 
             // Überprüfe auf Gewinner in Kreuzen und Kreisen
             for (int i = 0; i < 8; ++i) {
-                //int a = winCombos[i][0], b = winCombos[i][1], c = winCombos[i][2];
-                /*if ((crosses[a] && crosses[a]->getBoxNumber() == crosses[b]->getBoxNumber() && crosses[a]->getBoxNumber() == crosses[c]->getBoxNumber()) ||
-                    (circles[a] && circles[a]->getBoxNumber() == circles[b]->getBoxNumber() && circles[a]->getBoxNumber() == circles[c]->getBoxNumber())) {
-                    return true; // Gewinner gefunden
-                }*/
                 if (inArray(crosses[0]->getBoxNumber(), &winCombos[i]) && inArray(crosses[1]->getBoxNumber(), &winCombos[i]) && inArray(crosses[2]->getBoxNumber(), &winCombos[i])) {
                 	return true;
                 }
@@ -235,6 +281,43 @@ public:
 
             return false; // Kein Gewinner gefunden
         }
+
+    // Function to generate a random move
+    int generateRandomMove() {
+        // Seed the random number generator
+        srand(time(nullptr));
+
+        // Loop until a valid empty position is found
+        while (true) {
+            // Generate a random position between 0 and 8 (inclusive)
+            int pos = rand() % 9;
+
+            // Check if the randomly generated position is empty
+            if (posIsEmpty(pos)) {
+            	// Return the valid empty position
+                return pos;
+            }
+        }
+    }
+
+    // Function to generate the next move for the AI player
+    int generateNextMove() {
+
+        // Check if AI can win in the next move
+        for (int pos = 0; pos < 9; ++pos) {
+            if (!posIsEmpty(pos)) {
+                continue; // Skip if position is not empty
+            }
+
+            // Simulate placing AI's symbol at the current position
+            if (simulateWinningMove(pos)) {
+                return pos; // AI can win, block opponent's winning move
+            }
+        }
+
+        // If opponent can't win in the next move, generate a random move
+        return generateRandomMove();
+    }
 };
 
 int main() {
@@ -246,27 +329,56 @@ int main() {
     // Spielfeld zeichnen
     ticTacToeGrid.draw();
     screenGraphic.refresh();
+    uart.set("\r\nLet the game begin!\r\n");
 
     while (!game.checkWinner()) {
 
+        /*// Prüfen und anzeigen von Pointer-Ereignissen
+        Pointer::Data point = pointer.get();
 
-            // Prüfen und anzeigen von Pointer-Ereignissen
-            Pointer::Data point = pointer.get();
+        if (point.flags) {
+            if (point.flags & Pointer::Data::CTRL_DWN) {
+                char buffer[100]; // Puffer für den formatierten String
+                int pos = ticTacToeGrid.getRect(point.posX, point.posY);
 
-            if (point.flags) {
-                if (point.flags & Pointer::Data::CTRL_DWN) {
-                    char buffer[100]; // Puffer für den formatierten String
-                     int pos = ticTacToeGrid.getRect(point.posX, point.posY);
+                // Formatierung des Strings in den Puffer
+                snprintf(buffer, sizeof(buffer), "Pos:%4d,%4d Delta: %4d Event:0x%02x Field:%4d\r\n", point.posX, point.posY, point.delta, point.flags, pos);
 
-                     // Formatierung des Strings in den Puffer
-                     snprintf(buffer, sizeof(buffer), "Pos:%4d,%4d Delta: %4d Event:0x%02x Field:%4d\r\n", point.posX, point.posY, point.delta, point.flags, pos);
-
-                     // Übergeben des formatierten Strings an uart.set
-                     uart.set(buffer);
-                    game.setMove(pos);
-                }
+                // Übergeben des formatierten Strings an uart.set
+                uart.set(buffer);
+                game.setMove(pos);
             }
-        }
+        }*/
+
+    	// AI player's turn
+    	int aiMove = game.generateNextMove();
+    	game.setMove(aiMove);
+
+    	// Check for winner after AI's move
+    	if (game.checkWinner()) {
+    		uart.set("AI is the winner!\r\n");
+    		break;
+    	}
+
+    	// Human player's turn (via touch input)
+    	bool playerMoved = false;
+    	while (!playerMoved) {
+    	    Pointer::Data point = pointer.get();
+  	        if (point.flags & Pointer::Data::CTRL_DWN) {
+  	            int humanMove = ticTacToeGrid.getRect(point.posX, point.posY);
+   	            if (humanMove >= 0 && !game.posIsEmpty(humanMove)) {
+   	                game.setMove(humanMove);
+   	                playerMoved = true;
+
+   	                // Check for winner after human's move
+   	                if (game.checkWinner()) {
+   	                    uart.set("You are the winner!\r\n");
+   	                    break;
+   	                }
+   	            }
+   	        }
+   	    }
+    }
 
     uart.set(game.getCrossTurn() ? "Circle is WINNER!" : "Cross is WINNER!\r\n\n");
     return 0;
