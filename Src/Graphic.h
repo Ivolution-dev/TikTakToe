@@ -13,17 +13,17 @@ using namespace EmbSysLib::Mod;
 
 class GraphicsObject {
 public:
-    virtual void draw() const = 0; // Reine virtuelle Funktion zum Zeichnen
+	virtual void draw() const = 0; // Reine virtuelle Funktion zum Zeichnen
 };
 
 class Cross : public GraphicsObject {
 public:
-    Cross(ScreenGraphic *screenGraphic, int box);
-    void draw() const override;
-    int getBoxNumber() const;
-    void setDark();
-    void del();
-    ScreenGraphic *screenGraphic;
+	Cross(ScreenGraphic *screenGraphic, int box);
+	void draw() const override;
+	int getBoxNumber() const;
+	void setDark();
+	void del();
+	ScreenGraphic *screenGraphic;
 
 private:
 	int boxNumber; // Variable zur Speicherung der Kastennummer
@@ -32,12 +32,12 @@ private:
 
 class Circle : public GraphicsObject {
 public:
-    Circle(ScreenGraphic *screenGraphic, int box);
-    void draw() const override;
-    int getBoxNumber() const;
-    void setDark();
-    void del();
-    ScreenGraphic *screenGraphic;
+	Circle(ScreenGraphic *screenGraphic, int box);
+	void draw() const override;
+	int getBoxNumber() const;
+	void setDark();
+	void del();
+	ScreenGraphic *screenGraphic;
 
 private:
 	int boxNumber; // Variable zur Speicherung der Kastennummer
@@ -49,9 +49,9 @@ private:
 class Grid : public GraphicsObject {
 public:
 	Grid(ScreenGraphic *screenGraphic);
-    void draw() const override;
-    int getRect(int x, int y) const;
-    ScreenGraphic *screenGraphic;
+	void draw() const override;
+	int getRect(int x, int y) const;
+	ScreenGraphic *screenGraphic;
 };
 
 #endif

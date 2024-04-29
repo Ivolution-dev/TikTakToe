@@ -56,6 +56,26 @@
 			<location>D:/GitHub/TikTakToe/Src/Graphic.h</location>
 		</link>
 		<link>
+			<name>Src/Player.cpp</name>
+			<type>1</type>
+			<location>D:/GitHub/TikTakToe/Src/Player.cpp</location>
+		</link>
+		<link>
+			<name>Src/Player.h</name>
+			<type>1</type>
+			<location>D:/GitHub/TikTakToe/Src/Player.h</location>
+		</link>
+		<link>
+			<name>Src/TicTacToe.cpp</name>
+			<type>1</type>
+			<location>D:/GitHub/TikTakToe/Src/TicTacToe.cpp</location>
+		</link>
+		<link>
+			<name>Src/TicTacToe.h</name>
+			<type>1</type>
+			<location>D:/GitHub/TikTakToe/Src/TicTacToe.h</location>
+		</link>
+		<link>
 			<name>Src/lib.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/Src/lib.cpp</locationURI>
