@@ -34,10 +34,10 @@ public:
 private:
 	TicTacToeGame* game;
 	int diff;
-	int simulateWinningMove();
-	int simulateLosingMove();
-	int generateRandomMove();
 	int generateNextMove();
+	int generateRandomMove();
+	bool simulateWinningMove(int pos);
+	int getSurvivalMove();
 };
 
 

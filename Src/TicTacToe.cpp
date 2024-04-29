@@ -16,7 +16,7 @@ TicTacToeGame::TicTacToeGame(Player* p1, Player* p2, Grid *grid, Uart_Mcu *uart)
 	}
 }
 
-void TicTacToeGame::setMove(int pos) {
+bool TicTacToeGame::setMove(int pos) {
 	if (pos < 0 || posIsEmpty(pos)) {
 		char buffer[100]; // Puffer für den formatierten String
 
@@ -25,7 +25,7 @@ void TicTacToeGame::setMove(int pos) {
 
 		// Übergeben des formatierten Strings an uart.set
 		uart->set(buffer);
-		return;
+		return false;
 	}
 	if (crossTurn) {
 		circles[2]->setDark();
@@ -71,15 +71,16 @@ void TicTacToeGame::setMove(int pos) {
 	uart->set(buffer);
 
 	screenGraphic->refresh();
+	return true;
 }
 
 bool TicTacToeGame::posIsEmpty(int pos) {
 	for(int i = 0; i<3; i++) {
 		if ((crosses[i] != nullptr && crosses[i]->getBoxNumber() == pos) || (circles[i] != nullptr && circles[i]->getBoxNumber() == pos)) {
-			return true;
+			return false;
 		}
 	}
-	return false;
+	return true;
 }
 
 bool TicTacToeGame::checkWinner() {
@@ -98,9 +99,7 @@ bool TicTacToeGame::checkWinner() {
 		if (inArray(circles[0]->getBoxNumber(), &winCombos[i]) && inArray(circles[1]->getBoxNumber(), &winCombos[i]) && inArray(circles[2]->getBoxNumber(), &winCombos[i])) {
 			return true;
 		}
-
 	}
-
 	return false; // Kein Gewinner gefunden
 }
 
@@ -111,4 +110,4 @@ bool TicTacToeGame::inArray(int element, const int (*array)[3]) const {
 		}
 	}
 	return false;
-};
+}
