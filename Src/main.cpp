@@ -50,7 +50,10 @@ private:
     	return cpy.checkWinner();
     }
 
-
+    // Function to simulate placing the AI's symbol at a position and check for a loosing move
+    bool simulateLosingMove(TicTacToeGame game, int pos) {
+    	return false;
+    }
 
 
 
@@ -66,7 +69,13 @@ public:
     // Methode zum Setzen eines Kreuzes oder Kreises an einer bestimmten Position
     void setMove(int pos) {
     	if (pos < 0 || posIsEmpty(pos)) {
-    		uart.set("Invalid Move!\r\n");
+    		char buffer[100]; // Puffer für den formatierten String
+
+    		// Formatierung des Strings in den Puffer
+    		snprintf(buffer, sizeof(buffer), "%d: Invalid Move!\r\n", pos);
+
+    		// Übergeben des formatierten Strings an uart.set
+    		uart.set(buffer);
             return;
         }
         if (crossTurn) {
@@ -173,6 +182,7 @@ public:
     // Function to generate the next move for the AI player
     int generateNextMove(TicTacToeGame game) {
 
+    	uart.set("Simulating moves:\r\n");
         // Check if AI can win in the next move
         for (int pos = 0; pos < 9; ++pos) {
             if (!posIsEmpty(pos)) {
@@ -182,6 +192,10 @@ public:
             // Simulate placing AI's symbol at the current position
             if (simulateWinningMove(game, pos)) {
                 return pos; // AI can win, block opponent's winning move
+            }
+
+            if (simulateLosingMove(game, pos)) {
+            	return pos;
             }
         }
 

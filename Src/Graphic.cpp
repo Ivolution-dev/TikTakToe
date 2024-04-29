@@ -44,18 +44,15 @@ Circle::Circle(ScreenGraphic *screenGraphic, int box) : screenGraphic(screenGrap
 void Circle::draw() const {
 	if (boxNumber < 0) {
         return; // Ungültige Kastennummer, beende die Funktion
-	}
-    // Berechne die Position des Kreuzes basierend auf der Kastennummer
+    }
+    // Berechne die Position des Kreises basierend auf der Kastennummer
     int row = boxNumber / 3;
     int col = boxNumber % 3;
-    int x1 = 160 + col * 160 + 20; // Horizontaler Offset + 20 Pixel
-    int y1 = row * 160 + 20; // Vertikaler Offset + 20 Pixel
-    int x2 = x1 + 120; // Breite des Kastens - 40 Pixel
-    int y2 = y1 + 120; // Höhe des Kastens - 40 Pixel
+    int x = 160 + col * 160 + 80; // Horizontaler Offset + halbe Breite des Kastens
+    int y = row * 160 + 80; // Vertikaler Offset + halbe Höhe des Kastens
 
-    // Zeichne das Kreuz
-    screenGraphic->drawLine(x1, y1, x2, y2, 3, farbe);
-    screenGraphic->drawLine(x1, y2, x2, y1, 3, farbe);
+    // Zeichne den Kreis
+    screenGraphic->drawCircle(x, y, 50, 3, farbe); // Radius von 50 Pixel
 }
 
 int Circle::getBoxNumber() const {
