@@ -152,34 +152,10 @@ private:
     }
 
     // Function to simulate placing the AI's symbol at a position and check for a winning move
-    bool simulateWinningMove(int pos) {
-        // Store the current state of the grid
-        Cross* crossesCopy[3];
-        Circle* circlesCopy[3];
-        for (int i = 0; i < 3; ++i) {
-            crossesCopy[i] = crosses[i];
-            circlesCopy[i] = circles[i];
-        }
-
-        // Simulate placing AI's symbol at the specified position
-        if (crossTurn) {
-            Cross* newCross = new Cross(pos);
-            crosses[pos] = newCross;
-        } else {
-            Circle* newCircle = new Circle(pos);
-            circles[pos] = newCircle;
-        }
-
-        // Check if the AI wins with this move
-        bool win = checkWinner();
-
-        // Restore the original state of the grid for AI's move
-        for (int i = 0; i < 3; ++i) {
-        	crosses[i] = crossesCopy[i];
-            circles[i] = circlesCopy[i];
-        }
-
-        return win;
+    bool simulateWinningMove(TicTacToeGame game, int pos) {
+    	TicTacToeGame cpy = game;
+    	cpy.setMove(pos);
+    	return cpy.checkWinner();
     }
 
 
@@ -198,6 +174,7 @@ public:
     // Methode zum Setzen eines Kreuzes oder Kreises an einer bestimmten Position
     void setMove(int pos) {
     	if (pos < 0 || posIsEmpty(pos)) {
+    		uart.set("Invalid Move!\r\n");
             return;
         }
         if (crossTurn) {
@@ -301,7 +278,7 @@ public:
     }
 
     // Function to generate the next move for the AI player
-    int generateNextMove() {
+    int generateNextMove(TicTacToeGame game) {
 
         // Check if AI can win in the next move
         for (int pos = 0; pos < 9; ++pos) {
@@ -310,7 +287,7 @@ public:
             }
 
             // Simulate placing AI's symbol at the current position
-            if (simulateWinningMove(pos)) {
+            if (simulateWinningMove(game, pos)) {
                 return pos; // AI can win, block opponent's winning move
             }
         }
@@ -351,7 +328,7 @@ int main() {
         }*/
 
     	// AI player's turn
-    	int aiMove = game.generateNextMove();
+    	int aiMove = game.generateNextMove(game);
     	game.setMove(aiMove);
 
     	// Check for winner after AI's move
