@@ -232,13 +232,13 @@ public:
         char buffer[100]; // Puffer für den formatierten String
 
         // Formatierung des Strings in den Puffer
-        snprintf(buffer, sizeof(buffer), "Crosses: %1d %1d %1d\r\nCircles: %1d %1d %1d\r\n",
-            			(crosses[0] == nullptr) ? -1 :crosses[0]->getBoxNumber(),
-            			(crosses[1] == nullptr) ? -1 :crosses[1]->getBoxNumber(),
-            			(crosses[2] == nullptr) ? -1 :crosses[2]->getBoxNumber(),
-            			(circles[0] == nullptr) ? -1 :circles[0]->getBoxNumber(),
-            			(circles[1] == nullptr) ? -1 :circles[1]->getBoxNumber(),
-            			(circles[2] == nullptr) ? -1 :circles[2]->getBoxNumber());
+        snprintf(buffer, sizeof(buffer), "Crosses: %c %c %c\r\nCircles: %c %c %c\r\n",
+            			(crosses[0] == nullptr) ? '-' : (char)crosses[0]->getBoxNumber() + '0',
+            			(crosses[1] == nullptr) ? '-' : (char)crosses[1]->getBoxNumber() + '0',
+            			(crosses[2] == nullptr) ? '-' : (char)crosses[2]->getBoxNumber() + '0',
+            			(circles[0] == nullptr) ? '-' : (char)circles[0]->getBoxNumber() + '0',
+            			(circles[1] == nullptr) ? '-' : (char)circles[1]->getBoxNumber() + '0',
+            			(circles[2] == nullptr) ? '-' : (char)circles[2]->getBoxNumber() + '0');
 
         // Übergeben des formatierten Strings an uart.set
         uart.set(buffer);
@@ -329,7 +329,7 @@ int main() {
     // Spielfeld zeichnen
     ticTacToeGrid.draw();
     screenGraphic.refresh();
-    uart.set("\r\nLet the game begin!\r\n");
+    uart.set("\r\n\nLet the game begin!\r\n");
 
     while (!game.checkWinner()) {
 
