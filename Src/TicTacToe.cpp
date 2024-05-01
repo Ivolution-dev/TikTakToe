@@ -16,8 +16,8 @@ TicTacToeGame::TicTacToeGame(Player* p1, Player* p2, Grid *grid, Uart_Mcu *uart)
 	}
 }
 
-bool TicTacToeGame::setMove(int pos) {
-	if (pos < 0 || posIsEmpty(pos)) {
+bool TicTacToeGame::setMove(int pos, bool draw) {
+	if (pos < 0 || !posIsEmpty(pos)) {
 		char buffer[100]; // Puffer für den formatierten String
 
 		// Formatierung des Strings in den Puffer
@@ -43,32 +43,16 @@ bool TicTacToeGame::setMove(int pos) {
 		circles[0] = new Circle(screenGraphic, pos); // Kreis an der Position setzen
 	}
 	crossTurn = !crossTurn; // Wechsel zwischen Kreuz und Kreis
-	if (crossTurn) {
-		uart->set("Now Crosses turn!\r\n");
-	} else {
-		uart->set("Now Circles turn!\r\n");
+
+	if (draw) {
+		showState();
+		for (int i = 0; i < 3; ++i) {
+			if (crosses[i] != nullptr)
+				crosses[i]->draw();
+			if (circles[i] != nullptr)
+				circles[i]->draw();
+		}
 	}
-
-	for (int i = 0; i < 3; ++i) {
-		if (crosses[i] != nullptr)
-			crosses[i]->draw();
-		if (circles[i] != nullptr)
-			circles[i]->draw();
-	}
-
-	char buffer[100]; // Puffer für den formatierten String
-
-	// Formatierung des Strings in den Puffer
-	snprintf(buffer, sizeof(buffer), "Crosses: %c %c %c\r\nCircles: %c %c %c\r\n",
-			(crosses[0] == nullptr) ? '-' : (char)crosses[0]->getBoxNumber() + '0',
-					(crosses[1] == nullptr) ? '-' : (char)crosses[1]->getBoxNumber() + '0',
-							(crosses[2] == nullptr) ? '-' : (char)crosses[2]->getBoxNumber() + '0',
-									(circles[0] == nullptr) ? '-' : (char)circles[0]->getBoxNumber() + '0',
-											(circles[1] == nullptr) ? '-' : (char)circles[1]->getBoxNumber() + '0',
-													(circles[2] == nullptr) ? '-' : (char)circles[2]->getBoxNumber() + '0');
-
-	// Übergeben des formatierten Strings an uart.set
-	uart->set(buffer);
 
 	screenGraphic->refresh();
 	return true;
@@ -83,7 +67,7 @@ bool TicTacToeGame::posIsEmpty(int pos) {
 	return true;
 }
 
-bool TicTacToeGame::checkWinner() {
+bool TicTacToeGame::checkWinner(bool draw) {
 	// Gewinnkombinationen
 	const int winCombos[8][3] = {
 			{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // Horizontale Linien
@@ -94,13 +78,39 @@ bool TicTacToeGame::checkWinner() {
 	// Überprüfe auf Gewinner in Kreuzen und Kreisen
 	for (int i = 0; i < 8; ++i) {
 		if (inArray(crosses[0]->getBoxNumber(), &winCombos[i]) && inArray(crosses[1]->getBoxNumber(), &winCombos[i]) && inArray(crosses[2]->getBoxNumber(), &winCombos[i])) {
+			if (draw) {
+				uart->set("Cross is the winner!\r\n");
+			}
 			return true;
 		}
 		if (inArray(circles[0]->getBoxNumber(), &winCombos[i]) && inArray(circles[1]->getBoxNumber(), &winCombos[i]) && inArray(circles[2]->getBoxNumber(), &winCombos[i])) {
+			if (draw) {
+				uart->set("Circle is the winner!\r\n");
+			}
 			return true;
 		}
 	}
 	return false; // Kein Gewinner gefunden
+}
+
+void TicTacToeGame::showState() {
+	char buffer[100]; // Puffer für den formatierten String
+	// Formatierung des Strings in den Puffer
+	snprintf(buffer, sizeof(buffer), "Crosses: %c %c %c\r\nCircles: %c %c %c\r\n",
+			(crosses[0] == nullptr) ? '-' : (char)crosses[0]->getBoxNumber() + '0',
+					(crosses[1] == nullptr) ? '-' : (char)crosses[1]->getBoxNumber() + '0',
+							(crosses[2] == nullptr) ? '-' : (char)crosses[2]->getBoxNumber() + '0',
+									(circles[0] == nullptr) ? '-' : (char)circles[0]->getBoxNumber() + '0',
+											(circles[1] == nullptr) ? '-' : (char)circles[1]->getBoxNumber() + '0',
+													(circles[2] == nullptr) ? '-' : (char)circles[2]->getBoxNumber() + '0');
+	// Übergeben des formatierten Strings an uart.set
+	uart->set(buffer);
+
+	if (crossTurn) {
+		uart->set("Now Crosses turn!\r\n\n");
+	} else {
+		uart->set("Now Circles turn!\r\n\n");
+	}
 }
 
 bool TicTacToeGame::inArray(int element, const int (*array)[3]) const {

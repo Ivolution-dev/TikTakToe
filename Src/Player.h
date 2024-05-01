@@ -15,29 +15,32 @@ using namespace EmbSysLib::Mod;
 
 class Player {
 public:
-	virtual int getMove(); // Reine virtuelle Funktion zum Zeichnen
+	// Reine virtuelle Funktion zum Zeichnen
+	virtual int getMove(TicTacToeGame *game) {
+		return -1;
+	}
 };
 
 class Human : public Player {
 public:
-	Human(TicTacToeGame* game, Pointer* pointer);
-	int getMove() override;
+	Human(Pointer* pointer);
+	~Human();
+	int getMove(TicTacToeGame *game) override;
 private:
-	TicTacToeGame* game;
 	Pointer* pointer;
 };
 
 class AI : public Player {
 public:
-	AI(TicTacToeGame* game, int diff);
-	int getMove() override;
+	AI(int diff);
+	~AI();
+	int getMove(TicTacToeGame *game) override;
 private:
-	TicTacToeGame* game;
 	int diff;
-	int generateNextMove();
-	int generateRandomMove();
-	bool simulateWinningMove(int pos);
-	int getSurvivalMove();
+	int generateNextMove(TicTacToeGame* game);
+	int generateRandomMove(TicTacToeGame* game);
+	bool simulateWinningMove(TicTacToeGame* game, int pos);
+	int getSurvivalMove(TicTacToeGame* game);
 };
 
 

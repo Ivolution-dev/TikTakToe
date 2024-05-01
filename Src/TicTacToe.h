@@ -15,18 +15,19 @@ using namespace EmbSysLib::Mod;
 class TicTacToeGame {
 public:
 	TicTacToeGame(Player* p1, Player* p2, Grid *grid, Uart_Mcu *uart);
-	bool setMove(int pos);
+	bool setMove(int pos, bool draw);
 	bool posIsEmpty(int pos);
-	bool checkWinner();
+	bool checkWinner(bool draw);
 	Grid *grid;
 	Uart_Mcu *uart;
 private:
+	void showState();
+	bool inArray(int element, const int (*array)[3]) const;
 	Cross *crosses[3];
 	Circle *circles[3];
+	bool crossTurn;
 	Player *p1;
 	Player *p2;
-	bool crossTurn;
-	bool inArray(int element, const int (*array)[3]) const;
 	ScreenGraphic *screenGraphic;
 };
 
