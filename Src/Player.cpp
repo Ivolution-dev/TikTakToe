@@ -9,7 +9,7 @@ using namespace EmbSysLib::Ctrl;
 using namespace EmbSysLib::Mod;
 
 
-Human::Human(Pointer* pointer) : pointer(pointer) {}
+Human::Human(std::string win, Pointer* pointer) : win(win), pointer(pointer) {}
 
 
 Human::~Human() {}
@@ -31,12 +31,20 @@ int Human::getMove(TicTacToeGame* game) {
 	}
 }
 
-AI::AI(int diff) : diff(diff) {}
+std::string Human::getWin() {
+	return win;
+}
+
+AI::AI(std::string win, int diff) : win(win), diff(diff) {}
 
 AI::~AI() {}
 
 int AI::getMove(TicTacToeGame* game) {
 	return generateNextMove(game);
+}
+
+std::string AI::getWin() {
+	return win;
 }
 
 int AI::generateNextMove(TicTacToeGame* game) {

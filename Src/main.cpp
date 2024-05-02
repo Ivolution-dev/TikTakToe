@@ -2,7 +2,7 @@
 /*!
 \file   main.cpp
 \author Ivo Tofall, Veit Jagusch
-\date   01.05.2024
+\date   03.05.2024
 \brief  modified TicTacToe
  */
 
@@ -32,23 +32,27 @@ int main() {
 	Player* p1;
 	Player* p2;
 
-
 	// ToDo Menü
 	difficulty = 2;
+	bool p1_IsHuman = false;
+	bool p2_IsHuman = true;
 
-	if (false) { // First Player
-		p1 = new Human(&pointer);
-	} else {
-		p1 = new AI(difficulty);
+
+
+	// Spieler und Spiel erstellen
+	if (p1_IsHuman && p2_IsHuman) {
+		p1 = new Human("Cross is", &pointer);
+		p2 = new Human("Circle is", &pointer);
+	} else if (!p1_IsHuman && p2_IsHuman) {
+		p1 = new AI("AI is", difficulty);
+		p2 = new Human("You are", &pointer);
+	} else if (p1_IsHuman && !p2_IsHuman) {
+		p1 = new Human("You are", &pointer);
+		p2 = new AI("AI is", difficulty);
+	} else if (!p1_IsHuman && !p2_IsHuman) {
+		p1 = new AI("Cross is", difficulty);
+		p2 = new AI("Circle is", difficulty);
 	}
-
-	if (true) { // Second Player
-		p2 = new Human(&pointer);
-	} else {
-		p2 = new AI(difficulty);
-	}
-
-
 	Grid ticTacToeGrid(&screenGraphic);
 	TicTacToeGame game(p1, p2, &ticTacToeGrid, &uart);
 
@@ -61,15 +65,15 @@ int main() {
 		game.setMove(p1->getMove(&game), true);
 
 		if (game.checkWinner(true)) {
+			// ToDo Endscreen "p1.win.c_str() the winner!"
 			break;
 		}
 
 		game.setMove(p2->getMove(&game), true);
 
 		if (game.checkWinner(true)) {
+			// ToDo Endscreen "p2.win.c_str() the winner!"
 			break;
 		}
 	}
-
-	// ToDo Endscreen "<<Shape>> has won!"
 }

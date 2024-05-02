@@ -18,6 +18,7 @@ public:
 	bool setMove(int pos, bool draw);
 	bool posIsEmpty(int pos);
 	bool checkWinner(bool draw);
+	bool getCrossTurn();
 	Grid *grid;
 	Uart_Mcu *uart;
 private:

@@ -1,6 +1,7 @@
 #include "TicTacToe.h"
 #include "EmbSysLib.h"
 #include "Graphic.h"
+#include "Player.h"
 
 using namespace EmbSysLib::Hw;
 using namespace EmbSysLib::Dev;
@@ -79,18 +80,26 @@ bool TicTacToeGame::checkWinner(bool draw) {
 	for (int i = 0; i < 8; ++i) {
 		if (inArray(crosses[0]->getBoxNumber(), &winCombos[i]) && inArray(crosses[1]->getBoxNumber(), &winCombos[i]) && inArray(crosses[2]->getBoxNumber(), &winCombos[i])) {
 			if (draw) {
-				uart->set("Cross is the winner!\r\n");
+				char buffer[100];
+				snprintf(buffer, sizeof(buffer), "%s the winner!\r\n", p1->getWin().c_str());
+				uart->set(buffer);
 			}
 			return true;
 		}
 		if (inArray(circles[0]->getBoxNumber(), &winCombos[i]) && inArray(circles[1]->getBoxNumber(), &winCombos[i]) && inArray(circles[2]->getBoxNumber(), &winCombos[i])) {
 			if (draw) {
-				uart->set("Circle is the winner!\r\n");
+				char buffer[100];
+				snprintf(buffer, sizeof(buffer), "%s the winner!\r\n", p2->getWin().c_str());
+				uart->set(buffer);
 			}
 			return true;
 		}
 	}
 	return false; // Kein Gewinner gefunden
+}
+
+bool TicTacToeGame::getCrossTurn() {
+	return crossTurn;
 }
 
 void TicTacToeGame::showState() {

@@ -6,6 +6,7 @@ class TicTacToeGame;
 
 #include "EmbSysLib.h"
 #include "TicTacToe.h"
+#include <string>
 
 using namespace EmbSysLib::Hw;
 using namespace EmbSysLib::Dev;
@@ -19,24 +20,31 @@ public:
 	virtual int getMove(TicTacToeGame *game) {
 		return -1;
 	}
+	virtual std::string getWin() {
+		return "Player";
+	}
 };
 
 class Human : public Player {
 public:
-	Human(Pointer* pointer);
+	Human(std::string win, Pointer* pointer);
 	~Human();
 	int getMove(TicTacToeGame *game) override;
+	std::string getWin() override;
 private:
 	Pointer* pointer;
+	std::string win;
 };
 
 class AI : public Player {
 public:
-	AI(int diff);
+	AI(std::string win, int diff);
 	~AI();
 	int getMove(TicTacToeGame *game) override;
+	std::string getWin() override;
 private:
 	int diff;
+	std::string win;
 	int generateNextMove(TicTacToeGame* game);
 	int generateRandomMove(TicTacToeGame* game);
 	bool simulateWinningMove(TicTacToeGame* game, int pos);
