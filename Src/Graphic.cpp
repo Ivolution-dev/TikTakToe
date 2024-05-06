@@ -1,4 +1,5 @@
 #include "Graphic.h"
+#include <string>
 
 using namespace EmbSysLib::Hw;
 using namespace EmbSysLib::Dev;
@@ -94,3 +95,89 @@ int Grid::getRect(int x, int y) const {
 		return -1;
 	}
 }
+
+PlayerSelection::PlayerSelection(ScreenGraphic *screenGraphic, Pointer* pointer) : screenGraphic(screenGraphic), pointer(pointer) {}
+
+void PlayerSelection::draw() const {
+	screenGraphic->drawRectangle(200, 130, 400, 100, 1, Color::White);
+	screenGraphic->drawText(250, 170, "Gegen Freund");
+	screenGraphic->drawRectangle(200, 250, 400, 100, 1, Color::White);
+	screenGraphic->drawText(250, 290, "Gegen Computer");
+	screenGraphic->refresh();
+}
+
+int PlayerSelection::getResult() {
+	while (true) {
+		Pointer::Data point = pointer->get();
+		if (point.flags & Pointer::Data::CTRL_DWN) {
+			if (point.posX >= 200 && point.posX <=600 && point.posY >= 130 && point.posY <= 240) {
+				screenGraphic->clear();
+				return 0;
+			}
+			else if (point.posX >= 200 && point.posX <=600 && point.posY >= 250 && point.posY <= 350) {
+				screenGraphic->clear();
+				return 1;
+			}
+		}
+	}
+}
+
+DifficultySelection::DifficultySelection(ScreenGraphic *screenGraphic, Pointer* pointer) : screenGraphic(screenGraphic), pointer(pointer) {}
+
+void DifficultySelection::draw() const {
+	screenGraphic->drawRectangle(200, 75, 400, 100, 1, Color::White);
+	screenGraphic->drawText(250, 115, "Inkompetent");
+	screenGraphic->drawRectangle(200, 185, 400, 100, 1, Color::White);
+	screenGraphic->drawText(250, 225, "Realistisch");
+	screenGraphic->drawRectangle(200, 295, 400, 100, 1, Color::White);
+	screenGraphic->drawText(250, 335, "Gut");
+	screenGraphic->refresh();
+}
+
+int DifficultySelection::getResult() {
+	while (true) {
+		Pointer::Data point = pointer->get();
+		if (point.flags & Pointer::Data::CTRL_DWN) {
+			if (point.posX >= 200 && point.posX <=600 && point.posY >= 75 && point.posY <= 175) {
+				screenGraphic->clear();
+				return 0;
+			}
+			else if (point.posX >= 200 && point.posX <=600 && point.posY >= 185 && point.posY <= 285) {
+				screenGraphic->clear();
+				return 1;
+			}
+			else if (point.posX >= 200 && point.posX <=600 && point.posY >= 295 && point.posY <= 395) {
+				screenGraphic->clear();
+				return 2;
+			}
+		}
+	}
+}
+
+EndscreenSelection::EndscreenSelection(ScreenGraphic *screenGraphic, Pointer* pointer) : screenGraphic(screenGraphic), pointer(pointer) {}
+
+void EndscreenSelection::draw() const {
+	screenGraphic->clear();
+	//screenGraphic->drawRectangle(200, 130, 400, 100, 1, Color::White);
+	char buffer[100];
+	snprintf(buffer, sizeof(buffer), "%s the winner!", winner.c_str());
+	screenGraphic->drawText(220, 170, buffer);
+	screenGraphic->drawRectangle(200, 250, 400, 100, 1, Color::White);
+	screenGraphic->drawText(250, 290, "Nochmal spielen");
+	screenGraphic->refresh();
+}
+
+void EndscreenSelection::setWinner(std::string winner) { EndscreenSelection::winner = winner; }
+
+int EndscreenSelection::getResult() {
+	while (true) {
+		Pointer::Data point = pointer->get();
+		if (point.flags & Pointer::Data::CTRL_DWN) {
+			if (point.posX >= 200 && point.posX <=600 && point.posY >= 250 && point.posY <= 350) {
+				System::reset();
+			}
+		}
+	}
+}
+
+

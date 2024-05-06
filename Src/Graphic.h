@@ -3,6 +3,7 @@
 
 
 #include "EmbSysLib.h"
+#include <string>
 #include "../../Resource/Color/Color.h"
 
 using namespace EmbSysLib::Hw;
@@ -53,5 +54,41 @@ public:
 	int getRect(int x, int y) const;
 	ScreenGraphic *screenGraphic;
 };
+
+class Menu : public GraphicsObject {
+public:
+	virtual void draw() const = 0;
+};
+
+class PlayerSelection : public GraphicsObject, public Menu {
+public:
+	PlayerSelection(ScreenGraphic *screenGraphic, Pointer* pointer);
+	void draw() const override;
+	int getResult();
+	ScreenGraphic *screenGraphic;
+	Pointer* pointer;
+};
+
+class DifficultySelection : public GraphicsObject, public Menu {
+public:
+	DifficultySelection(ScreenGraphic *screenGraphic, Pointer* pointer);
+	void draw() const override;
+	int getResult();
+	ScreenGraphic *screenGraphic;
+	Pointer* pointer;
+};
+
+class EndscreenSelection : public GraphicsObject, public Menu {
+public:
+	EndscreenSelection(ScreenGraphic *screenGraphic, Pointer* pointer);
+	void setWinner(std::string winner);
+	void draw() const override;
+	std::string winner;
+	int getResult();
+	ScreenGraphic *screenGraphic;
+	Pointer* pointer;
+};
+
+
 
 #endif

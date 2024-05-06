@@ -27,17 +27,25 @@ int main() {
 	// Instanzen von Grid und TicTacToeGame erstellen
 	screenGraphic.clear();
 	screenGraphic.refresh();
-	// 0 = random, 1 = winningMove, 2 = winningMove, losingMove
-	int difficulty;
+
+	PlayerSelection menu1(&screenGraphic, &pointer);
+	menu1.draw();
+	// 0 gegen Mensch, 1 gegen AI
+	int result = menu1.getResult();
+	bool p1_IsHuman = true;
+	bool p2_IsHuman = result == 0;
+
+	int difficulty = 0;
+
+	if (!p2_IsHuman) {
+		DifficultySelection menu2(&screenGraphic, &pointer);
+		menu2.draw();
+		// 0 = random, 1 = winningMove, 2 = winningMove, losingMove
+		difficulty = menu2.getResult();
+	}
+
 	Player* p1;
 	Player* p2;
-
-	// ToDo Menü
-	difficulty = 2;
-	bool p1_IsHuman = false;
-	bool p2_IsHuman = true;
-
-
 
 	// Spieler und Spiel erstellen
 	if (p1_IsHuman && p2_IsHuman) {
@@ -61,19 +69,23 @@ int main() {
 	ticTacToeGrid.draw(); // Spielfeld zeichnen
 	screenGraphic.refresh();
 
+	EndscreenSelection endscreen(&screenGraphic, &pointer);
+
 	while (true) {
-		game.setMove(p1->getMove(&game), true);
+		while(!game.setMove(p1->getMove(&game), true));
 
 		if (game.checkWinner(true)) {
-			// ToDo Endscreen "p1.win.c_str() the winner!"
+			endscreen.setWinner(p1->getWin());
 			break;
 		}
 
-		game.setMove(p2->getMove(&game), true);
+		while(!game.setMove(p2->getMove(&game), true));
 
 		if (game.checkWinner(true)) {
-			// ToDo Endscreen "p2.win.c_str() the winner!"
+			endscreen.setWinner(p2->getWin());
 			break;
 		}
 	}
+	endscreen.draw();
+	endscreen.getResult();
 }
