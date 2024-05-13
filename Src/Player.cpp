@@ -163,7 +163,7 @@ int AI::generateRandomMove(TicTacToeGame* game) {
 	}
 }
 
-NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer) : win(win), pointer(pointer) {
+NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, HandshakeScreen* screen) : win(win), pointer(pointer) {
 	uart.set("\r\n\n\n\nHandshake");
 	player = 1;
 	int otherplayer = 1;
@@ -182,6 +182,7 @@ NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer) : win(win), poin
 		snprintf(buffer, sizeof(buffer), "H%d\r\n", player);
 		uart7.set(buffer);
 		uart.set(".");
+		screen->draw();
 	}
 	char buffer[100];
 	snprintf(buffer, sizeof(buffer), "\r\nIch:%d Anderer:%d \r\n", player, otherplayer);
@@ -217,18 +218,24 @@ int NetworkPlayer::touchGetMove(TicTacToeGame *game) {
 	snprintf(buffer, sizeof(buffer), "P%dM%d\r\n", player, move);
 	uart7.set(buffer);
 	uart.set(buffer);
+	return move;
 }
 
 int NetworkPlayer::receiveGetMove() {
 	uart.set("Waiting for move from other device!\r\n");
     char* value;
+    int move;
 
 	while (true) {
 		value = terminal7.getString();
 		if (value[0] == 'P' && int(value[1]) == getEnemy() && value[2] == 'M') {
-			return int(value[3]);
+			move = int(value[3]);
 		}
 	}
+	char buffer[100];
+	snprintf(buffer, sizeof(buffer), "Received move %d\r\n", move);
+	uart.set(buffer);
+	return move;
 }
 
 std::string NetworkPlayer::getWin() {

@@ -62,7 +62,7 @@ private:
 
 class NetworkPlayer : public Player {
 public:
-	NetworkPlayer(std::string win, Pointer* pointer);
+	NetworkPlayer(std::string win, Pointer* pointer, HandshakeScreen* screen);
 	NetworkPlayer(std::string win, Pointer* pointer, int player);
 	~NetworkPlayer();
 	int getMove(TicTacToeGame *game) override;

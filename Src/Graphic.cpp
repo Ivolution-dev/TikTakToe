@@ -186,4 +186,22 @@ int EndscreenSelection::getResult() {
 	}
 }
 
+HandshakeScreen::HandshakeScreen(ScreenGraphic *screenGraphic, Pointer* pointer) : screenGraphic(screenGraphic), pointer(pointer) {
+	dots = 0;
+}
+
+void HandshakeScreen::draw() const {
+	screenGraphic->clear();
+	screenGraphic->drawRectangle(200, 185, 400, 100, 1, Color::White);
+	char text[4] = "";
+	for (int i = 0; i < dots; i++) {
+		text[i] = '.';
+	}
+	char buffer[100];
+	snprintf(buffer, sizeof(buffer), "Handshake %s", text);
+	screenGraphic->drawText(250, 225, buffer);
+	dots = (dots + 1) % 4;
+	screenGraphic->refresh();
+}
+
 

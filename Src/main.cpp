@@ -49,7 +49,8 @@ int main() {
 
 	// Spieler und Spiel erstellen
 	if (result == 2) {
-		p1 = new NetworkPlayer("Net1", &pointer);
+		HandshakeScreen hsscreen(&screenGraphic, &pointer);
+		p1 = new NetworkPlayer("Net1", &pointer, &hsscreen);
 		p2 = new NetworkPlayer("Net2", &pointer, p1->getEnemy());
 	}
 	else if (p1_IsHuman && p2_IsHuman) {

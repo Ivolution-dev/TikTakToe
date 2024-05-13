@@ -89,6 +89,19 @@ public:
 	Pointer* pointer;
 };
 
+class HandshakeScreen : public GraphicsObject, public Menu {
+public:
+	HandshakeScreen(ScreenGraphic *screenGraphic, Pointer* pointer);
+	void draw() const override;
+	int getResult();
+	ScreenGraphic *screenGraphic;
+	Pointer* pointer;
+private:
+	mutable int dots;
+
+
+};
+
 
 
 #endif
