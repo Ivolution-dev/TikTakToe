@@ -51,9 +51,9 @@ PinConfig::MAP PinConfig::table[] =
   USART1_TX_PA9,
   USART1_RX_PA10,
 
-  // UART
-  UART5_TX_PB9,
-  UART5_RX_PB8,
+  // UART 5
+  UART7_TX_PF7,
+  UART7_RX_PF6,
 
   // I2C
   I2C4_SCL_PD12,
@@ -156,7 +156,9 @@ Uart_Mcu   uart ( Uart_Mcu::USART_1, 9600, Uart_Mcu::NONE, 100, 100 );
 
 Terminal   terminal( uart, 255,255,"# +" );
 
-Uart_Mcu   uart5 ( Uart_Mcu::UART_5, 9600, Uart_Mcu::NONE, 100, 100 );
+Uart_Mcu   uart7 ( Uart_Mcu::UART_7, 9600, Uart_Mcu::NONE, 100, 100 );
+
+Terminal   terminal7( uart7, 255,255,"# +" );
 
 //-------------------------------------------------------------------
 // Display

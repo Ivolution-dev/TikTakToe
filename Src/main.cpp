@@ -48,9 +48,9 @@ int main() {
 	Player* p2;
 
 	// Spieler und Spiel erstellen
-	if (result == 3) {
+	if (result == 2) {
 		p1 = new NetworkPlayer("Net1", &pointer);
-		p2 = new NetworkPlayer("Net2", &pointer);
+		p2 = new AI("test", 2);
 	}
 	else if (p1_IsHuman && p2_IsHuman) {
 		p1 = new Human("Cross is", &pointer);

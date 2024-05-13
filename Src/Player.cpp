@@ -4,7 +4,9 @@
 #include <ctime>   // For srand() initialization
 
 extern Uart_Mcu uart;
-extern Uart_Mcu uart5;
+extern Uart_Mcu uart7;
+
+extern Terminal terminal7;
 
 using namespace EmbSysLib::Hw;
 using namespace EmbSysLib::Dev;
@@ -158,8 +160,28 @@ int AI::generateRandomMove(TicTacToeGame* game) {
 }
 
 NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer) : win(win), pointer(pointer) {
-	uart5.set("\r\n\n\n\nTest Init\r\n");
-	uart.set(uart5.get());
+	uart.set("\r\n\n\n\nHandshake\r\n");
+	int player = 1;
+	int otherplayer = 1;
+    char* value;
+	while(player == otherplayer) {
+
+	    value = terminal7.getString();
+	    if( value != 0 )
+	    {
+	    	otherplayer = int(value[1]) % 2;
+	    	if (player == otherplayer) {
+	    		player = (player+1)%2;
+	    	}
+	    }
+		char buffer[100];
+		snprintf(buffer, sizeof(buffer), "P%d\r\n", player);
+		uart7.set(buffer);
+		uart.set(buffer);
+	}
+	char buffer[100];
+	snprintf(buffer, sizeof(buffer), "Ich:%d Anderer:%d \r\n", player, otherplayer);
+	uart.set(buffer);
 }
 NetworkPlayer::~NetworkPlayer() {}
 int NetworkPlayer::getMove(TicTacToeGame *game) {
