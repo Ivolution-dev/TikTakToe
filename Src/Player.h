@@ -23,12 +23,21 @@ public:
 	virtual std::string getWin() {
 		return "Player";
 	}
+	virtual int getPlayer() {
+		return player;
+	}
+	virtual int getEnemy() {
+		return (player+1)%2;
+	}
+protected:
+	int player;
 };
 
 class Human : public Player {
 public:
 	Human(std::string win, Pointer* pointer);
 	~Human();
+	static int getHumanMove(TicTacToeGame *game, Pointer* pointer);
 	int getMove(TicTacToeGame *game) override;
 	std::string getWin() override;
 private:
@@ -54,12 +63,15 @@ private:
 class NetworkPlayer : public Player {
 public:
 	NetworkPlayer(std::string win, Pointer* pointer);
+	NetworkPlayer(std::string win, Pointer* pointer, int player);
 	~NetworkPlayer();
 	int getMove(TicTacToeGame *game) override;
 	std::string getWin() override;
 private:
 	Pointer* pointer;
 	std::string win;
+	int touchGetMove(TicTacToeGame *game);
+	int receiveGetMove();
 };
 
 

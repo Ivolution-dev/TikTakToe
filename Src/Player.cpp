@@ -20,6 +20,10 @@ Human::Human(std::string win, Pointer* pointer) : win(win), pointer(pointer) {}
 Human::~Human() {}
 
 int Human::getMove(TicTacToeGame* game) {
+	return getHumanMove(game, pointer);
+}
+
+int Human::getHumanMove(TicTacToeGame* game, Pointer* pointer) {
 	while (true) {
 		Pointer::Data point = pointer->get();
 		if (point.flags & Pointer::Data::CTRL_DWN) {
@@ -160,14 +164,14 @@ int AI::generateRandomMove(TicTacToeGame* game) {
 }
 
 NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer) : win(win), pointer(pointer) {
-	uart.set("\r\n\n\n\nHandshake\r\n");
-	int player = 1;
+	uart.set("\r\n\n\n\nHandshake");
+	player = 1;
 	int otherplayer = 1;
     char* value;
 	while(player == otherplayer) {
 
 	    value = terminal7.getString();
-	    if( value != 0 )
+	    if( value != 0 && value[0] == 'H')
 	    {
 	    	otherplayer = int(value[1]) % 2;
 	    	if (player == otherplayer) {
@@ -175,20 +179,58 @@ NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer) : win(win), poin
 	    	}
 	    }
 		char buffer[100];
-		snprintf(buffer, sizeof(buffer), "P%d\r\n", player);
+		snprintf(buffer, sizeof(buffer), "H%d\r\n", player);
 		uart7.set(buffer);
-		uart.set(buffer);
+		uart.set(".");
 	}
 	char buffer[100];
-	snprintf(buffer, sizeof(buffer), "Ich:%d Anderer:%d \r\n", player, otherplayer);
+	snprintf(buffer, sizeof(buffer), "\r\nIch:%d Anderer:%d \r\n", player, otherplayer);
 	uart.set(buffer);
 }
-NetworkPlayer::~NetworkPlayer() {}
-int NetworkPlayer::getMove(TicTacToeGame *game) {
-	while (true) {
 
+NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, int player) : win(win), pointer(pointer) {
+	Player::player = player;
+	uart.set("Init Networkplayer Number ");
+	uart.set(player);
+	uart.set("\r\n");
+}
+
+NetworkPlayer::~NetworkPlayer() {}
+
+int NetworkPlayer::getMove(TicTacToeGame *game) {
+	if (player == 0 && game->getCrossTurn()) {
+		return touchGetMove(game);
+	} else if (player == 0 && !game->getCrossTurn()) {
+		return receiveGetMove();
+	} else if (player == 1 && !game->getCrossTurn()) {
+		return touchGetMove(game);
+	} else if (player == 1 && game->getCrossTurn()) {
+		return receiveGetMove();
 	}
 }
+
+int NetworkPlayer::touchGetMove(TicTacToeGame *game) {
+	uart.set("Waiting for touch input!\r\n");
+	int move = Human::getHumanMove(game, pointer);
+	uart.set("Sending: ");
+	char buffer[100];
+	snprintf(buffer, sizeof(buffer), "P%dM%d\r\n", player, move);
+	uart7.set(buffer);
+	uart.set(buffer);
+}
+
+int NetworkPlayer::receiveGetMove() {
+	uart.set("Waiting for move from other device!\r\n");
+    char* value;
+
+	while (true) {
+		value = terminal7.getString();
+		if (value[0] == 'P' && int(value[1]) == getEnemy() && value[2] == 'M') {
+			return int(value[3]);
+		}
+	}
+}
+
 std::string NetworkPlayer::getWin() {
 	return win;
 }

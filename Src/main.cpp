@@ -50,7 +50,7 @@ int main() {
 	// Spieler und Spiel erstellen
 	if (result == 2) {
 		p1 = new NetworkPlayer("Net1", &pointer);
-		p2 = new AI("test", 2);
+		p2 = new NetworkPlayer("Net2", &pointer, p1->getEnemy());
 	}
 	else if (p1_IsHuman && p2_IsHuman) {
 		p1 = new Human("Cross is", &pointer);
