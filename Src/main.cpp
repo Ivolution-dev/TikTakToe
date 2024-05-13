@@ -37,7 +37,7 @@ int main() {
 
 	int difficulty = 0;
 
-	if (!p2_IsHuman) {
+	if (!p2_IsHuman && result < 2) {
 		DifficultySelection menu2(&screenGraphic, &pointer);
 		menu2.draw();
 		// 0 = random, 1 = winningMove, 2 = winningMove, losingMove
@@ -48,7 +48,11 @@ int main() {
 	Player* p2;
 
 	// Spieler und Spiel erstellen
-	if (p1_IsHuman && p2_IsHuman) {
+	if (result == 3) {
+		p1 = new NetworkPlayer("Net1", &pointer);
+		p2 = new NetworkPlayer("Net2", &pointer);
+	}
+	else if (p1_IsHuman && p2_IsHuman) {
 		p1 = new Human("Cross is", &pointer);
 		p2 = new Human("Circle is", &pointer);
 	} else if (!p1_IsHuman && p2_IsHuman) {

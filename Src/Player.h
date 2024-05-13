@@ -51,5 +51,16 @@ private:
 	int getSurvivalMove(TicTacToeGame* game);
 };
 
+class NetworkPlayer : public Player {
+public:
+	NetworkPlayer(std::string win, Pointer* pointer);
+	~NetworkPlayer();
+	int getMove(TicTacToeGame *game) override;
+	std::string getWin() override;
+private:
+	Pointer* pointer;
+	std::string win;
+};
+
 
 #endif

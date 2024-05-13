@@ -3,6 +3,9 @@
 #include <cstdlib> // For rand() and srand()
 #include <ctime>   // For srand() initialization
 
+extern Uart_Mcu uart;
+extern Uart_Mcu uart5;
+
 using namespace EmbSysLib::Hw;
 using namespace EmbSysLib::Dev;
 using namespace EmbSysLib::Ctrl;
@@ -152,5 +155,19 @@ int AI::generateRandomMove(TicTacToeGame* game) {
 			return pos;
 		}
 	}
+}
+
+NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer) : win(win), pointer(pointer) {
+	uart5.set("\r\n\n\n\nTest Init\r\n");
+	uart.set(uart5.get());
+}
+NetworkPlayer::~NetworkPlayer() {}
+int NetworkPlayer::getMove(TicTacToeGame *game) {
+	while (true) {
+
+	}
+}
+std::string NetworkPlayer::getWin() {
+	return win;
 }
 

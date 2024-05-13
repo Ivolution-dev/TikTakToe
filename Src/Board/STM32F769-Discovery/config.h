@@ -10,7 +10,7 @@
 /*
 Board:    STM32F769-Discovery
 
-\see ´Example\Src\Board\STM32F769-Discovery/board_pinout.txt
+\see ï¿½Example\Src\Board\STM32F769-Discovery/board_pinout.txt
 */
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -50,6 +50,10 @@ PinConfig::MAP PinConfig::table[] =
   // UART
   USART1_TX_PA9,
   USART1_RX_PA10,
+
+  // UART
+  UART5_TX_PB9,
+  UART5_RX_PB8,
 
   // I2C
   I2C4_SCL_PD12,
@@ -151,6 +155,8 @@ I2Cmaster_Mcu i2cBusTouch( I2Cmaster_Mcu::I2C_4, 400/*kHz*/ );
 Uart_Mcu   uart ( Uart_Mcu::USART_1, 9600, Uart_Mcu::NONE, 100, 100 );
 
 Terminal   terminal( uart, 255,255,"# +" );
+
+Uart_Mcu   uart5 ( Uart_Mcu::UART_5, 9600, Uart_Mcu::NONE, 100, 100 );
 
 //-------------------------------------------------------------------
 // Display

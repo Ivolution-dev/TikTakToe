@@ -99,10 +99,12 @@ int Grid::getRect(int x, int y) const {
 PlayerSelection::PlayerSelection(ScreenGraphic *screenGraphic, Pointer* pointer) : screenGraphic(screenGraphic), pointer(pointer) {}
 
 void PlayerSelection::draw() const {
-	screenGraphic->drawRectangle(200, 130, 400, 100, 1, Color::White);
-	screenGraphic->drawText(250, 170, "Gegen Freund");
-	screenGraphic->drawRectangle(200, 250, 400, 100, 1, Color::White);
-	screenGraphic->drawText(250, 290, "Gegen Computer");
+	screenGraphic->drawRectangle(200, 75, 400, 100, 1, Color::White);
+	screenGraphic->drawText(250, 115, "Gegen Freund");
+	screenGraphic->drawRectangle(200, 185, 400, 100, 1, Color::White);
+	screenGraphic->drawText(250, 225, "Gegen Computer");
+	screenGraphic->drawRectangle(200, 295, 400, 100, 1, Color::White);
+	screenGraphic->drawText(250, 335, "Netzwerk Spiel");
 	screenGraphic->refresh();
 }
 
@@ -110,13 +112,17 @@ int PlayerSelection::getResult() {
 	while (true) {
 		Pointer::Data point = pointer->get();
 		if (point.flags & Pointer::Data::CTRL_DWN) {
-			if (point.posX >= 200 && point.posX <=600 && point.posY >= 130 && point.posY <= 240) {
+			if (point.posX >= 200 && point.posX <=600 && point.posY >= 75 && point.posY <= 175) {
 				screenGraphic->clear();
 				return 0;
 			}
-			else if (point.posX >= 200 && point.posX <=600 && point.posY >= 250 && point.posY <= 350) {
+			else if (point.posX >= 200 && point.posX <=600 && point.posY >= 185 && point.posY <= 285) {
 				screenGraphic->clear();
 				return 1;
+			}
+			else if (point.posX >= 200 && point.posX <=600 && point.posY >= 295 && point.posY <= 395) {
+				screenGraphic->clear();
+				return 2;
 			}
 		}
 	}
