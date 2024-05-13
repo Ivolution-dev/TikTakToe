@@ -52,6 +52,12 @@ int main() {
 		HandshakeScreen hsscreen(&screenGraphic, &pointer);
 		p1 = new NetworkPlayer("Net1", &pointer, &hsscreen);
 		p2 = new NetworkPlayer("Net2", &pointer, p1->getEnemy());
+
+		if (p1->getPlayer() == 1) {
+			Player* temp = p1;
+			p1 = p2;
+			p2 = temp;
+		}
 	}
 	else if (p1_IsHuman && p2_IsHuman) {
 		p1 = new Human("Cross is", &pointer);
@@ -66,6 +72,7 @@ int main() {
 		p1 = new AI("Cross is", difficulty);
 		p2 = new AI("Circle is", difficulty);
 	}
+	screenGraphic.clear();
 	Grid ticTacToeGrid(&screenGraphic);
 	TicTacToeGame game(p1, p2, &ticTacToeGrid, &uart);
 

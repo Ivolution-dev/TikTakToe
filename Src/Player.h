@@ -72,6 +72,7 @@ private:
 	std::string win;
 	int touchGetMove(TicTacToeGame *game);
 	int receiveGetMove();
+	bool human = false;
 };
 
 

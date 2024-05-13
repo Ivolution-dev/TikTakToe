@@ -98,8 +98,6 @@ public:
 	Pointer* pointer;
 private:
 	mutable int dots;
-
-
 };
 
 

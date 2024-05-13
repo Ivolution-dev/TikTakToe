@@ -167,13 +167,14 @@ NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, HandshakeScreen*
 	uart.set("\r\n\n\n\nHandshake");
 	player = 1;
 	int otherplayer = 1;
+	human = true;
     char* value;
 	while(player == otherplayer) {
 
 	    value = terminal7.getString();
 	    if( value != 0 && value[0] == 'H')
 	    {
-	    	otherplayer = int(value[1]) % 2;
+	    	otherplayer = (value[1] - '0') % 2;
 	    	if (player == otherplayer) {
 	    		player = (player+1)%2;
 	    	}
@@ -191,21 +192,21 @@ NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, HandshakeScreen*
 
 NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, int player) : win(win), pointer(pointer) {
 	Player::player = player;
-	uart.set("Init Networkplayer Number ");
-	uart.set(player);
-	uart.set("\r\n");
+	char buffer[100];
+	snprintf(buffer, sizeof(buffer), "Init Networkplayer Number %d \r\n", player);
+	uart.set(buffer);
 }
 
 NetworkPlayer::~NetworkPlayer() {}
 
 int NetworkPlayer::getMove(TicTacToeGame *game) {
-	if (player == 0 && game->getCrossTurn()) {
+	char buffer[100];
+	snprintf(buffer, sizeof(buffer), "Processing Player, %d with Cross turn %d, and human %d\r\n", player, game->getCrossTurn(), human);
+	uart.set(buffer);
+
+	if (human) {
 		return touchGetMove(game);
-	} else if (player == 0 && !game->getCrossTurn()) {
-		return receiveGetMove();
-	} else if (player == 1 && !game->getCrossTurn()) {
-		return touchGetMove(game);
-	} else if (player == 1 && game->getCrossTurn()) {
+	} else {
 		return receiveGetMove();
 	}
 }
@@ -228,8 +229,12 @@ int NetworkPlayer::receiveGetMove() {
 
 	while (true) {
 		value = terminal7.getString();
-		if (value[0] == 'P' && int(value[1]) == getEnemy() && value[2] == 'M') {
-			move = int(value[3]);
+		if (value != 0)
+		{
+			if (value[0] == 'P' && value[2] == 'M' && (value[1] - '0') == player) {
+				move = (value[3] - '0');
+				break;
+			}
 		}
 	}
 	char buffer[100];
