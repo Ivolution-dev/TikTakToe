@@ -34,3 +34,8 @@
 
 # Debug
 Project/STM32F769-Discovery/Debug/*
+
+# Obsidian
+Src/.obsidian/*
+Project/STM32F769-Discovery/STM32CubeIDE/.project
+Project/STM32F769-Discovery/STM32CubeIDE/.settings/language.settings.xml

@@ -50,8 +50,8 @@ int main() {
 	// Spieler und Spiel erstellen
 	if (result == 2) {
 		HandshakeScreen hsscreen(&screenGraphic, &pointer);
-		p1 = new NetworkPlayer("Net1", &pointer, &hsscreen);
-		p2 = new NetworkPlayer("Net2", &pointer, p1->getEnemy());
+		p1 = new NetworkPlayer("You are", &pointer, &hsscreen);
+		p2 = new NetworkPlayer("The opponent is", &pointer, p1->getEnemy());
 
 		if (p1->getPlayer() == 1) {
 			Player* temp = p1;
