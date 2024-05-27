@@ -74,13 +74,14 @@ int main() {
 	}
 	screenGraphic.clear();
 	Grid ticTacToeGrid(&screenGraphic);
+	ticTacToeGrid.draw(); // Spielfeld zeichnen
 	TicTacToeGame game(p1, p2, &ticTacToeGrid, &uart);
 
 	// Spiel beginnen
 	uart.set("\r\n\n\n\nLet the game begin!\r\n");
-	ticTacToeGrid.draw(); // Spielfeld zeichnen
-	screenGraphic.refresh();
 
+	//game.drawTurn();
+	screenGraphic.refresh();
 	EndscreenSelection endscreen(&screenGraphic, &pointer);
 
 	while (true) {

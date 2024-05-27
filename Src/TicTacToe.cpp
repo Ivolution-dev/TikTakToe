@@ -15,6 +15,7 @@ TicTacToeGame::TicTacToeGame(Player* p1, Player* p2, Grid *grid, Uart_Mcu *uart)
 		crosses[i] = nullptr; // Leeres Feld für Kreuze
 		circles[i] = nullptr; // Leeres Feld für Kreise
 	}
+	drawTurn();
 }
 
 bool TicTacToeGame::setMove(int pos, bool draw) {
@@ -46,6 +47,8 @@ bool TicTacToeGame::setMove(int pos, bool draw) {
 	crossTurn = !crossTurn; // Wechsel zwischen Kreuz und Kreis
 
 	if (draw) {
+		screenGraphic->clear();
+		grid->draw();
 		showState();
 		for (int i = 0; i < 3; ++i) {
 			if (crosses[i] != nullptr)
@@ -53,10 +56,17 @@ bool TicTacToeGame::setMove(int pos, bool draw) {
 			if (circles[i] != nullptr)
 				circles[i]->draw();
 		}
-	}
+		drawTurn();
 
-	screenGraphic->refresh();
+		screenGraphic->refresh();
+	}
 	return true;
+}
+
+void TicTacToeGame::drawTurn() {
+	char buffer[100];
+	snprintf(buffer, sizeof(buffer), "%s on it", crossTurn ? p1->getWin().c_str() : p2->getWin().c_str());
+	screenGraphic->drawText(0, 0, buffer);
 }
 
 bool TicTacToeGame::posIsEmpty(int pos) {
