@@ -190,7 +190,8 @@ NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, HandshakeScreen*
 		snprintf(buffer, sizeof(buffer), "\r\nIch:%d Anderer:%d \r\n", player, otherplayer);
 		uart.set(buffer);
     } while (checkError());
-    uart7.set("Start/r/n");
+    uart7.set("/r/n");
+    terminal7.printf("/r/n");
 }
 
 bool NetworkPlayer::checkError() {
