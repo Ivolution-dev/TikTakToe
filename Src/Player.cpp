@@ -177,12 +177,12 @@ NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, HandshakeScreen*
 	    value = terminal7.getString();
 	    if( value != 0 && value[0] == 'H')
 	    {
+	    	char buffer[100];
+	    	snprintf(buffer, sizeof(buffer), "\r\nIch:%d Anderer:%d \r\n", player, otherplayer);
+	    	uart.set(buffer);
 	    	otherplayer = (value[1] - '0');
 	    	if (player == otherplayer) {
 	    		player = std::rand() % 101;
-	    	} else {
-	    		player = player < otherplayer ? 0 : 1;
-	    		otherplayer = (player + 1) % 2;
 	    	}
 	    }
 		char buffer[100];
