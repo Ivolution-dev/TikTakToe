@@ -93,6 +93,7 @@ bool TicTacToeGame::checkWinner(bool draw) {
 				char buffer[100];
 				snprintf(buffer, sizeof(buffer), "%s the winner!\r\n", p1->getWin().c_str());
 				uart->set(buffer);
+				System::delayMilliSec( 500 );
 			}
 			return true;
 		}
@@ -101,6 +102,7 @@ bool TicTacToeGame::checkWinner(bool draw) {
 				char buffer[100];
 				snprintf(buffer, sizeof(buffer), "%s the winner!\r\n", p2->getWin().c_str());
 				uart->set(buffer);
+				System::delayMilliSec( 500 );
 			}
 			return true;
 		}
