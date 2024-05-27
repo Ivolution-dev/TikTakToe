@@ -182,6 +182,7 @@ NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, HandshakeScreen*
 	    		player = std::rand() % 101;
 	    	} else {
 	    		player = player < otherplayer ? 0 : 1;
+	    		otherplayer = (player + 1) % 2;
 	    	}
 	    }
 		char buffer[100];
