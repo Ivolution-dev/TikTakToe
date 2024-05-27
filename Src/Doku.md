@@ -15,7 +15,7 @@
 - UART zum laufen bekommen
 	- UART 7 als Schnittstelle verwendet (Library erweitert)
 - Beim Handshake über UART zufällig die Spielreihenfolge festlegen
-	- Lösung
+	- Beide Microcontroller fluten den anderen mit Nachrichten, bis sie sich über die Reihenfolge einig sind.
 ## Abweichungen zum Lastenheft
 ### Spielregeln
 Auf einem quadratischen, 3×3 Felder großen Spielfeld setzen zwei Spieler abwechselnd ihr Zeichen (ein Spieler Kreuze, der andere Kreise) in ein freies Feld. Der Spieler, der als Erster drei Zeichen in eine Zeile, Spalte oder Diagonale setzen kann, gewinnt. ~~Wenn alle neun Felder sind gefüllt, ohne dass ein Spieler die erforderlichen Zeichen in einer Reihe, Spalte oder Diagonalen setzen konnte, ist das Spiel unentschieden.~~ _Die Züge jedes Spielers werden in einer Liste gespeichert. Wenn die Liste eine Länge von drei Einträgen erreicht hat, wird mit jedem weiteren Zug der erste Eintrag in der Liste gelöscht, die anderen Einträge rutschen auf und der neue Eintrag wird an hinterster Stelle hinzugefügt._
@@ -28,8 +28,6 @@ Der Spieler markiert das Feld, in dem sein Zeichen gesetzt werden soll, durch Be
 Die Zeichen sollen im Spielfeld gut erkennbar und farbig sein.
 Die Spielentscheidung wird textuell ausgegeben. Mit Betätigung eines Buttons kann das Spiel jederzeit neu gestartet werden.
 ## Testdokumentation
-// ToDo
-
-
+Der aktuelle Stand der Entwicklung wurde nach jeder Änderung auf Fehler überprüft. Neue Funktionen bauen auf den vorherigen auf, welche bereits getestet wurden.
 ## Fazit
-// ToDo
+It just works
