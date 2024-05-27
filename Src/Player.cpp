@@ -260,6 +260,7 @@ int NetworkPlayer::receiveGetMove() {
 		value = terminal7.getString();
 		if (value != 0)
 		{
+			uart.set(value);
 			if (value[0] == 'P' && value[2] == 'M' && (value[1] - '0') == player) {
 				move = (value[3] - '0');
 				break;
