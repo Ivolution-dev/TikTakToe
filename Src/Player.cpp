@@ -193,6 +193,7 @@ NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, HandshakeScreen*
 }
 
 bool NetworkPlayer::checkError() {
+	System::delayMilliSec( 1000 );
 	int checkother = -1;
 	while(true) {
 	    char* value = terminal7.getString();
@@ -204,6 +205,7 @@ bool NetworkPlayer::checkError() {
 		snprintf(buffer, sizeof(buffer), "C%d\r\n", player);
 		uart7.set(buffer);
 		if (checkother > -1) {
+			System::delayMilliSec( 1000 );
 			if (checkother == player) {
 				char buffer[100];
 				snprintf(buffer, sizeof(buffer), "\r\nIch:%d Anderer:%d ERROR! \r\n", player, checkother);
