@@ -169,14 +169,19 @@ NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, HandshakeScreen*
 	int otherplayer = 1;
 	human = true;
     char* value;
+
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+
 	while(player == otherplayer) {
 
 	    value = terminal7.getString();
 	    if( value != 0 && value[0] == 'H')
 	    {
-	    	otherplayer = (value[1] - '0') % 2;
+	    	otherplayer = (value[1] - '0');
 	    	if (player == otherplayer) {
-	    		player = (player+1)%2;
+	    		player = std::rand() % 101;
+	    	} else {
+	    		player = player < otherplayer ? 0 : 1;
 	    	}
 	    }
 		char buffer[100];

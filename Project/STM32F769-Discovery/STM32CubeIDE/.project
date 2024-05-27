@@ -46,39 +46,34 @@
 			<locationURI>$%7BPARENT-3-PROJECT_LOC%7D/Src/Board/STM32F769-Discovery/board_pinout.txt</locationURI>
 		</link>
 		<link>
-			<name>Src/Doku.md</name>
-			<type>1</type>
-			<location>C:/Users/veit/Desktop/GitHub/TikTakToe/Src/Doku.md</location>
-		</link>
-		<link>
 			<name>Src/Graphic.cpp</name>
 			<type>1</type>
-			<location>C:/Users/veit/Desktop/GitHub/TikTakToe/Src/Graphic.cpp</location>
+			<location>C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/Graphic.cpp</location>
 		</link>
 		<link>
 			<name>Src/Graphic.h</name>
 			<type>1</type>
-			<location>C:/Users/veit/Desktop/GitHub/TikTakToe/Src/Graphic.h</location>
+			<location>C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/Graphic.h</location>
 		</link>
 		<link>
 			<name>Src/Player.cpp</name>
 			<type>1</type>
-			<location>C:/Users/veit/Desktop/GitHub/TikTakToe/Src/Player.cpp</location>
+			<location>C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/Player.cpp</location>
 		</link>
 		<link>
 			<name>Src/Player.h</name>
 			<type>1</type>
-			<location>C:/Users/veit/Desktop/GitHub/TikTakToe/Src/Player.h</location>
+			<location>C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/Player.h</location>
 		</link>
 		<link>
 			<name>Src/TicTacToe.cpp</name>
 			<type>1</type>
-			<location>C:/Users/veit/Desktop/GitHub/TikTakToe/Src/TicTacToe.cpp</location>
+			<location>C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/TicTacToe.cpp</location>
 		</link>
 		<link>
 			<name>Src/TicTacToe.h</name>
 			<type>1</type>
-			<location>C:/Users/veit/Desktop/GitHub/TikTakToe/Src/TicTacToe.h</location>
+			<location>C:/Users/ivoto/OneDrive/Studium/6. Semester/TikTakToe/Src/TicTacToe.h</location>
 		</link>
 		<link>
 			<name>Src/lib.cpp</name>
