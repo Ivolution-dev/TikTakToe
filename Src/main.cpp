@@ -51,7 +51,7 @@ int main() {
 	if (result == 2) {
 		HandshakeScreen hsscreen(&screenGraphic, &pointer);
 		p1 = new NetworkPlayer("You are", &pointer, &hsscreen);
-		p2 = new NetworkPlayer("The opponent is", &pointer, p1->getEnemy());
+		p2 = new NetworkPlayer("Your rival is", &pointer, p1->getEnemy());
 
 		if (p1->getPlayer() == 1) {
 			Player* temp = p1;
