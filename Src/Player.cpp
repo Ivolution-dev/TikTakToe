@@ -170,19 +170,14 @@ NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, HandshakeScreen*
 	human = true;
     char* value;
 
-    std::srand(static_cast<unsigned int>(std::time(nullptr)));
-
 	while(player == otherplayer) {
 
 	    value = terminal7.getString();
 	    if( value != 0 && value[0] == 'H')
 	    {
-	    	char buffer[100];
-	    	snprintf(buffer, sizeof(buffer), "\r\nIch:%d Anderer:%d \r\n", player, otherplayer);
-	    	uart.set(buffer);
-	    	otherplayer = (value[1] - '0');
+	    	otherplayer = (value[1] - '0') % 2;
 	    	if (player == otherplayer) {
-	    		player = std::rand() % 101;
+	    		player = (player+1)%2;
 	    	}
 	    }
 		char buffer[100];
@@ -191,9 +186,33 @@ NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, HandshakeScreen*
 		uart.set(".");
 		screen->draw();
 	}
+	checkError();
 	char buffer[100];
 	snprintf(buffer, sizeof(buffer), "\r\nIch:%d Anderer:%d \r\n", player, otherplayer);
 	uart.set(buffer);
+}
+
+bool NetworkPlayer::checkError() {
+	int checkother = -1;
+	while(true) {
+	    value = terminal7.getString();
+	    if( value != 0 && value[0] == 'H')
+	    {
+	    	checkother = (value[1] - '0');
+	    }
+		char buffer[100];
+		snprintf(buffer, sizeof(buffer), "H%d\r\n", player);
+		uart7.set(buffer);
+		if (checkother > -1) {
+			if (checkother == player) {
+				return true;
+				char buffer[100];
+				snprintf(buffer, sizeof(buffer), "\r\nIch:%d Anderer:%d ERROR! \r\n", player, otherplayer);
+				uart.set(buffer);
+			}
+			return false;
+		}
+	}
 }
 
 NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, int player) : win(win), pointer(pointer) {
@@ -252,4 +271,3 @@ int NetworkPlayer::receiveGetMove() {
 std::string NetworkPlayer::getWin() {
 	return win;
 }
-
