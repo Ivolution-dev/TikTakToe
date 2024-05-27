@@ -164,12 +164,12 @@ int AI::generateRandomMove(TicTacToeGame* game) {
 }
 
 NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, HandshakeScreen* screen) : win(win), pointer(pointer) {
-	uart.set("\r\n\n\n\nHandshake");
-	player = 1;
-	int otherplayer = 1;
-	human = true;
-    char* value;
     do {
+    	uart.set("\r\n\n\n\nHandshake");
+    	player = 1;
+    	int otherplayer = 1;
+    	human = true;
+        char* value;
 		while(player == otherplayer) {
 
 			value = terminal7.getString();
@@ -186,10 +186,10 @@ NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, HandshakeScreen*
 			uart.set(".");
 			screen->draw();
 		}
-    } while (!checkError());
-	char buffer[100];
-	snprintf(buffer, sizeof(buffer), "\r\nIch:%d Anderer:%d \r\n", player, otherplayer);
-	uart.set(buffer);
+		char buffer[100];
+		snprintf(buffer, sizeof(buffer), "\r\nIch:%d Anderer:%d \r\n", player, otherplayer);
+		uart.set(buffer);
+    } while (checkError());
 }
 
 bool NetworkPlayer::checkError() {
