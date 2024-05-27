@@ -245,7 +245,7 @@ int NetworkPlayer::touchGetMove(TicTacToeGame *game) {
 	int move = Human::getHumanMove(game, pointer);
 	uart.set("Sending: ");
 	char buffer[100];
-	snprintf(buffer, sizeof(buffer), "P%dM%d\r\n", player, move);
+	snprintf(buffer, sizeof(buffer), "\r\nP%dM%d\r\n", player, move);
 	uart7.set(buffer);
 	uart.set(buffer);
 	return move;
