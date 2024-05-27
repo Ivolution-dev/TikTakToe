@@ -73,6 +73,7 @@ private:
 	int touchGetMove(TicTacToeGame *game);
 	int receiveGetMove();
 	bool human = false;
+	bool checkError();
 };
 
 

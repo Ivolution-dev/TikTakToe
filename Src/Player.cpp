@@ -195,7 +195,7 @@ NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, HandshakeScreen*
 bool NetworkPlayer::checkError() {
 	int checkother = -1;
 	while(true) {
-	    value = terminal7.getString();
+	    char* value = terminal7.getString();
 	    if( value != 0 && value[0] == 'H')
 	    {
 	    	checkother = (value[1] - '0');
@@ -207,7 +207,7 @@ bool NetworkPlayer::checkError() {
 			if (checkother == player) {
 				return true;
 				char buffer[100];
-				snprintf(buffer, sizeof(buffer), "\r\nIch:%d Anderer:%d ERROR! \r\n", player, otherplayer);
+				snprintf(buffer, sizeof(buffer), "\r\nIch:%d Anderer:%d ERROR! \r\n", player, checkother);
 				uart.set(buffer);
 			}
 			return false;
