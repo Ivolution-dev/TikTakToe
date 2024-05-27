@@ -66,7 +66,7 @@ bool TicTacToeGame::setMove(int pos, bool draw) {
 void TicTacToeGame::drawTurn() {
 	char buffer[100];
 	snprintf(buffer, sizeof(buffer), "%s on it", crossTurn ? p1->getWin().c_str() : p2->getWin().c_str());
-	screenGraphic->drawText(0, 0, buffer);
+	screenGraphic->drawText(0, 4, buffer);
 }
 
 bool TicTacToeGame::posIsEmpty(int pos) {
