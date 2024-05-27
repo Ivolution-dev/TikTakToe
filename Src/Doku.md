@@ -1,6 +1,6 @@
 # Dokumentation
 ## Software-Architektur
-//ToDo Diagramm erstelen und Bild einfügen
+//ToDo Diagramm erstellen und Bild einfügen
 
 ## Methode
 ### Vorgehen
@@ -14,9 +14,17 @@
 ### Probleme
 - UART zum laufen bekommen
 	- UART 7 als Schnittstelle verwendet (Library erweitert)
-- Verbindungsaufbau über UART (Handshake, welcher Spieler fängt an)
 ## Abweichungen zum Lastenheft
+### Spielregeln
+TikTakToe verändert, statt dem normalen Spielverlauf werden nur drei Züge gespeichert. Durch den vierten Zug im Spiel wird der erste wieder gelöscht, wodurch es nicht zu einem Unentschieden kommen kann.
+
+### Spielgestaltung
+Das Spiel kann in der Variante "Mensch gegen Mensch" sowohl lokal, als auch über UART auf zwei Microcontrollern gespielt werden.
+Das Spiel bietet in der Variante "Mensch gegen Computer" die Möglichkeit, gegen verschieden schwierige Gegner anzutreten.
 
 ## Testdokumentation
+// ToDo
+
 
 ## Fazit
+// ToDo
