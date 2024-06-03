@@ -93,7 +93,6 @@ class HandshakeScreen : public Menu {
 public:
 	HandshakeScreen(ScreenGraphic *screenGraphic, Pointer* pointer);
 	void draw() const override;
-	int getResult();
 	ScreenGraphic *screenGraphic;
 	Pointer* pointer;
 private:
