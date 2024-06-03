@@ -60,7 +60,7 @@ public:
 	virtual void draw() const = 0;
 };
 
-class PlayerSelection : public GraphicsObject, public Menu {
+class PlayerSelection : public Menu {
 public:
 	PlayerSelection(ScreenGraphic *screenGraphic, Pointer* pointer);
 	void draw() const override;
@@ -69,7 +69,7 @@ public:
 	Pointer* pointer;
 };
 
-class DifficultySelection : public GraphicsObject, public Menu {
+class DifficultySelection : public Menu {
 public:
 	DifficultySelection(ScreenGraphic *screenGraphic, Pointer* pointer);
 	void draw() const override;
@@ -78,7 +78,7 @@ public:
 	Pointer* pointer;
 };
 
-class EndscreenSelection : public GraphicsObject, public Menu {
+class EndscreenSelection : public Menu {
 public:
 	EndscreenSelection(ScreenGraphic *screenGraphic, Pointer* pointer);
 	void setWinner(std::string winner);
@@ -89,7 +89,7 @@ public:
 	Pointer* pointer;
 };
 
-class HandshakeScreen : public GraphicsObject, public Menu {
+class HandshakeScreen : public Menu {
 public:
 	HandshakeScreen(ScreenGraphic *screenGraphic, Pointer* pointer);
 	void draw() const override;
