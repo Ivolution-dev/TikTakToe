@@ -48,37 +48,37 @@
 		<link>
 			<name>Src/Doku.md</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/Src/main.cpp</locationURI>
+			<locationURI>PARENT-3-PROJECT_LOC/Src/Doku.md</locationURI>
 		</link>
 		<link>
 			<name>Src/Graphic.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/Src/main.cpp</locationURI>
+			<locationURI>PARENT-3-PROJECT_LOC/Src/Graphic.cpp</locationURI>
 		</link>
 		<link>
 			<name>Src/Graphic.h</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/Src/main.cpp</locationURI>
+			<locationURI>PARENT-3-PROJECT_LOC/Src/Graphic.h</locationURI>
 		</link>
 		<link>
 			<name>Src/Player.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/Src/main.cpp</locationURI>
+			<locationURI>PARENT-3-PROJECT_LOC/Src/Player.cpp</locationURI>
 		</link>
 		<link>
 			<name>Src/Player.h</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/Src/main.cpp</locationURI>
+			<locationURI>PARENT-3-PROJECT_LOC/Src/Player.h</locationURI>
 		</link>
 		<link>
 			<name>Src/TicTacToe.cpp</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/Src/main.cpp</locationURI>
+			<locationURI>PARENT-3-PROJECT_LOC/Src/TicTacToe.cpp</locationURI>
 		</link>
 		<link>
 			<name>Src/TicTacToe.h</name>
 			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/Src/main.cpp</locationURI>
+			<locationURI>PARENT-3-PROJECT_LOC/Src/TicTacToe.h</locationURI>
 		</link>
 		<link>
 			<name>Src/lib.cpp</name>
