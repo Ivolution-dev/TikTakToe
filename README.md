@@ -1,15 +1,11 @@
 # Projektinfo
 ## Hardware
 
-Microcontroller: STM32F769I-DISCO
-Display: MB1166 Rev. A
-Erweiterungsboard: STM32F769-Disco Extension-Board
-UART (S3): Verbunden, jeweils RX-Pin an TX-Pin
+Microcontroller: STM32F769I-DISCO<br>Display: MB1166 Rev. A<br>Erweiterungsboard: STM32F769-Disco Extension-Board<br>UART (S3): Verbunden, jeweils RX-Pin an TX-Pin
 
 ## Software
 
-Entwickelt mit STM32CubeIDE => EmBlitz & uVision unbenutzt
-Modifizierte Version der [EmbSysLib](https://github.com/FireFly08151/EmbSysLib) (Erweiterung um uart7)
+Entwickelt mit STM32CubeIDE => EmBlitz & uVision unbenutzt<br>Modifizierte Version der [EmbSysLib](https://github.com/FireFly08151/EmbSysLib) (Erweiterung um uart7)
 
 # Dokumentation
 ## Software-Architektur
