@@ -1,4 +1,6 @@
 # Projektinfo
+
+Embedded C++ [Thomas Breuer](https://github.com/ThBreuer) SS24<br>[Hochschule Bonn-Rhein-Sieg](https://www.h-brs.de/)
 ## Hardware
 
 Microcontroller: STM32F769I-DISCO<br>Display: MB1166 Rev. A<br>Erweiterungsboard: STM32F769-Disco Extension-Board<br>UART (S3): Verbunden, jeweils RX-Pin an TX-Pin
