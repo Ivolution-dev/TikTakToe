@@ -84,7 +84,18 @@ int main() {
 	screenGraphic.refresh();
 	EndscreenSelection endscreen(&screenGraphic, &pointer);
 
+	bool switcher = false;
+	Player* turn = p1;
 	while (true) {
+		/*while(!game.setMove(turn->getMove(&game), true));
+			if (game.checkWinner(true)) {
+				endscreen.setWinner(turn->getWin());
+				break;
+			}
+
+			turn = switcher ? p1 : p2;
+			switcher != switcher;*/
+
 		while(!game.setMove(p1->getMove(&game), true));
 
 		if (game.checkWinner(true)) {
