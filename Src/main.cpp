@@ -76,6 +76,8 @@ int main() {
 	Grid ticTacToeGrid(screenGraphic);
 	ticTacToeGrid.draw(); // Spielfeld zeichnen
 	TicTacToeGame game(p1, p2, ticTacToeGrid, &uart);
+	p1->setGame(&game);
+	p2->setGame(&game);
 
 	// Spiel beginnen
 	uart.set("\r\n\n\n\nLet the game begin!\r\n");
@@ -87,7 +89,7 @@ int main() {
 	bool switcher = false;
 	Player* turn = p1;
 	while (true) {
-		while(!game.setMove(turn->getMove(&game), true));
+		while(!game.setMove(turn->getMove(), true));
 		if (game.checkWinner(true)) {
 			endscreen.setWinner(turn->getWin());
 			break;

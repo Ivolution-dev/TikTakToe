@@ -55,8 +55,10 @@ public:
 
 class Menu : public GraphicsObject {
 public:
-    Menu(ScreenGraphic &screenGraphic) : GraphicsObject(screenGraphic) {}
+    Menu(ScreenGraphic &screenGraphic, Pointer &pointer) : GraphicsObject(screenGraphic), pointer(pointer) {}
     virtual void draw() const = 0;
+protected:
+    Pointer &pointer;
 };
 
 class PlayerSelection : public Menu {
@@ -64,8 +66,6 @@ public:
     PlayerSelection(ScreenGraphic &screenGraphic, Pointer &pointer);
     void draw() const override;
     int getResult();
-private:
-    Pointer &pointer;
 };
 
 class DifficultySelection : public Menu {
@@ -73,8 +73,6 @@ public:
     DifficultySelection(ScreenGraphic &screenGraphic, Pointer &pointer);
     void draw() const override;
     int getResult();
-private:
-    Pointer &pointer;
 };
 
 class EndscreenSelection : public Menu {
@@ -84,8 +82,6 @@ public:
     void draw() const override;
     std::string winner;
     int getResult();
-private:
-    Pointer &pointer;
 };
 
 class HandshakeScreen : public Menu {
@@ -93,7 +89,6 @@ public:
     HandshakeScreen(ScreenGraphic &screenGraphic, Pointer &pointer);
     void draw() const override;
 private:
-    Pointer &pointer;
     mutable int dots;
 };
 

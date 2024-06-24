@@ -19,25 +19,29 @@ Human::Human(std::string win, Pointer* pointer) : win(win), pointer(pointer) {}
 
 Human::~Human() {}
 
-int Human::getMove(TicTacToeGame* game) {
-	return getHumanMove(game, pointer);
+int Human::getMove() {
+	return getHumanMove(pointer);
 }
 
-int Human::getHumanMove(TicTacToeGame* game, Pointer* pointer) {
+int Human::getHumanMove(TicTacToeGame game, Pointer* pointer) {
 	while (true) {
 		Pointer::Data point = pointer->get();
 		if (point.flags & Pointer::Data::CTRL_DWN) {
-			int pos = game->grid.getRect(point.posX, point.posY);
+			int pos = game.grid.getRect(point.posX, point.posY);
 			char buffer[100]; // Puffer für den formatierten String
 			// Formatierung des Strings in den Puffer
 			snprintf(buffer, sizeof(buffer), "Pos:%4d,%4d\tField:%2d\r\n", point.posX, point.posY, pos);
 			// Übergeben des formatierten Strings an uart.set
-			game->uart->set(buffer);
-			if (game->posIsEmpty(pos)) {
+			game.uart->set(buffer);
+			if (game.posIsEmpty(pos)) {
 				return pos;
 			}
 		}
 	}
+}
+
+int Human::getHumanMove(Pointer* pointer) {
+	return Human::getHumanMove(*game, pointer);
 }
 
 std::string Human::getWin() {
@@ -48,15 +52,15 @@ AI::AI(std::string win, int diff) : win(win), diff(diff) {}
 
 AI::~AI() {}
 
-int AI::getMove(TicTacToeGame* game) {
-	return generateNextMove(game);
+int AI::getMove() {
+	return generateNextMove();
 }
 
 std::string AI::getWin() {
 	return win;
 }
 
-int AI::generateNextMove(TicTacToeGame* game) {
+int AI::generateNextMove() {
 	char buffer[100];
 	switch (diff) {
 	case 1:
@@ -67,14 +71,14 @@ int AI::generateNextMove(TicTacToeGame* game) {
 				continue; // Skip if position is not empty
 			}
 			// Simulate placing AI's symbol at the current position
-			if (simulateWinningMove(game, pos)) {
+			if (simulateWinningMove(pos)) {
 				snprintf(buffer, sizeof(buffer), "\r\nFound winning move: %d\r\n", pos);
 				game->uart->set(buffer);
 				return pos; // AI can win
 			}
 		}
 		game->uart->set("\r\n");
-		return generateRandomMove(game);
+		return generateRandomMove();
 		break;
 	case 2:
 		game->uart->set("Simulating moves:\r\nChecking for winning moves:");
@@ -84,7 +88,7 @@ int AI::generateNextMove(TicTacToeGame* game) {
 				continue; // Skip if position is not empty
 			}
 			// Simulate placing AI's symbol at the current position
-			if (simulateWinningMove(game, pos)) {
+			if (simulateWinningMove(pos)) {
 				char buffer[100];
 				snprintf(buffer, sizeof(buffer), "\r\nFound winning move: %d\r\n", pos);
 				game->uart->set(buffer);
@@ -92,13 +96,13 @@ int AI::generateNextMove(TicTacToeGame* game) {
 			}
 		}
 		game->uart->set("\r\n");
-		return getSurvivalMove(game);
+		return getSurvivalMove();
 		break;
 	}
-	return generateRandomMove(game);
+	return generateRandomMove();
 }
 
-bool AI::simulateWinningMove(TicTacToeGame* game, int pos) {
+bool AI::simulateWinningMove(int pos) {
 	char buffer[100];
 	snprintf(buffer, sizeof(buffer), " %d", pos);
 	game->uart->set(buffer);
@@ -108,7 +112,7 @@ bool AI::simulateWinningMove(TicTacToeGame* game, int pos) {
 	return res;
 }
 
-int AI::getSurvivalMove(TicTacToeGame* game) {
+int AI::getSurvivalMove() {
 	game->uart->set("Checking for survival move:\r\n");
 	int hits[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 	// Iterate all fields with own possible move
@@ -141,10 +145,10 @@ int AI::getSurvivalMove(TicTacToeGame* game) {
 		}
 	}
 	// Lost anyways
-	return generateRandomMove(game);
+	return generateRandomMove();
 }
 
-int AI::generateRandomMove(TicTacToeGame* game) {
+int AI::generateRandomMove() {
 	game->uart->set("Generating random move:");
 	// Seed the random number generator
 	srand(time(nullptr));
@@ -228,21 +232,21 @@ NetworkPlayer::NetworkPlayer(std::string win, Pointer* pointer, int player) : wi
 
 NetworkPlayer::~NetworkPlayer() {}
 
-int NetworkPlayer::getMove(TicTacToeGame *game) {
+int NetworkPlayer::getMove() {
 	char buffer[100];
 	snprintf(buffer, sizeof(buffer), "Processing Player, %d with Cross turn %d, and human %d\r\n", player, game->getCrossTurn(), human);
 	uart.set(buffer);
 
 	if (human) {
-		return touchGetMove(game);
+		return touchGetMove();
 	} else {
 		return receiveGetMove();
 	}
 }
 
-int NetworkPlayer::touchGetMove(TicTacToeGame *game) {
+int NetworkPlayer::touchGetMove() {
 	uart.set("Waiting for touch input!\r\n");
-	int move = Human::getHumanMove(game, pointer);
+	int move = Human::getHumanMove(*game, pointer);
 	uart.set("Sending: ");
 	char buffer[100];
 	snprintf(buffer, sizeof(buffer), "\r\nP%dM%d\r\n", player, move);

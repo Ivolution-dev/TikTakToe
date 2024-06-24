@@ -17,7 +17,7 @@ using namespace EmbSysLib::Mod;
 class Player {
 public:
 	// Reine virtuelle Funktion zum Zeichnen
-	virtual int getMove(TicTacToeGame *game) {
+	virtual int getMove() {
 		return -1;
 	}
 	virtual std::string getWin() {
@@ -29,17 +29,22 @@ public:
 	virtual int getEnemy() {
 		return (player+1)%2;
 	}
+	virtual void setGame(TicTacToeGame *currentgame) {
+		game = currentgame;
+	}
 protected:
 	int player;
+	TicTacToeGame *game;
 };
 
 class Human : public Player {
 public:
 	Human(std::string win, Pointer* pointer);
 	~Human();
-	static int getHumanMove(TicTacToeGame *game, Pointer* pointer);
-	int getMove(TicTacToeGame *game) override;
+	int getHumanMove(Pointer* pointer);
+	int getMove() override;
 	std::string getWin() override;
+	static int getHumanMove(TicTacToeGame game, Pointer* pointer);
 private:
 	Pointer* pointer;
 	std::string win;
@@ -49,15 +54,15 @@ class AI : public Player {
 public:
 	AI(std::string win, int diff);
 	~AI();
-	int getMove(TicTacToeGame *game) override;
+	int getMove() override;
 	std::string getWin() override;
 private:
 	int diff;
 	std::string win;
-	int generateNextMove(TicTacToeGame* game);
-	int generateRandomMove(TicTacToeGame* game);
-	bool simulateWinningMove(TicTacToeGame* game, int pos);
-	int getSurvivalMove(TicTacToeGame* game);
+	int generateNextMove();
+	int generateRandomMove();
+	bool simulateWinningMove(int pos);
+	int getSurvivalMove();
 };
 
 class NetworkPlayer : public Player {
@@ -65,12 +70,12 @@ public:
 	NetworkPlayer(std::string win, Pointer* pointer, HandshakeScreen* screen);
 	NetworkPlayer(std::string win, Pointer* pointer, int player);
 	~NetworkPlayer();
-	int getMove(TicTacToeGame *game) override;
+	int getMove() override;
 	std::string getWin() override;
 private:
 	Pointer* pointer;
 	std::string win;
-	int touchGetMove(TicTacToeGame *game);
+	int touchGetMove();
 	int receiveGetMove();
 	bool human = false;
 	bool checkError();

@@ -101,8 +101,7 @@ int Grid::getRect(int x, int y) const {
 }
 
 // PlayerSelection class implementation
-PlayerSelection::PlayerSelection(ScreenGraphic &screenGraphic, Pointer &pointer)
-    : Menu(screenGraphic), pointer(pointer) {}
+PlayerSelection::PlayerSelection(ScreenGraphic &screenGraphic, Pointer &pointer) : Menu(screenGraphic, pointer) {}
 
 void PlayerSelection::draw() const {
     screenGraphic.drawRectangle(200, 75, 400, 100, 1, Color::White);
@@ -133,8 +132,7 @@ int PlayerSelection::getResult() {
 }
 
 // DifficultySelection class implementation
-DifficultySelection::DifficultySelection(ScreenGraphic &screenGraphic, Pointer &pointer)
-    : Menu(screenGraphic), pointer(pointer) {}
+DifficultySelection::DifficultySelection(ScreenGraphic &screenGraphic, Pointer &pointer) : Menu(screenGraphic, pointer) {}
 
 void DifficultySelection::draw() const {
     screenGraphic.drawRectangle(200, 75, 400, 100, 1, Color::White);
@@ -165,8 +163,7 @@ int DifficultySelection::getResult() {
 }
 
 // EndscreenSelection class implementation
-EndscreenSelection::EndscreenSelection(ScreenGraphic &screenGraphic, Pointer &pointer)
-    : Menu(screenGraphic), pointer(pointer) {}
+EndscreenSelection::EndscreenSelection(ScreenGraphic &screenGraphic, Pointer &pointer) : Menu(screenGraphic, pointer) {}
 
 void EndscreenSelection::draw() const {
     screenGraphic.clear();
@@ -195,8 +192,7 @@ int EndscreenSelection::getResult() {
 }
 
 // HandshakeScreen class implementation
-HandshakeScreen::HandshakeScreen(ScreenGraphic &screenGraphic, Pointer &pointer)
-    : Menu(screenGraphic), pointer(pointer), dots(0) {}
+HandshakeScreen::HandshakeScreen(ScreenGraphic &screenGraphic, Pointer &pointer) : Menu(screenGraphic, pointer), dots(0) {}
 
 void HandshakeScreen::draw() const {
     screenGraphic.clear();
