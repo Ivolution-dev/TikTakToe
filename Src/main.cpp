@@ -28,7 +28,7 @@ int main() {
 	screenGraphic.clear();
 	screenGraphic.refresh();
 
-	PlayerSelection menu1(&screenGraphic, &pointer);
+	PlayerSelection menu1(screenGraphic, pointer);
 	menu1.draw();
 	// 0 gegen Mensch, 1 gegen AI
 	int result = menu1.getResult();
@@ -38,7 +38,7 @@ int main() {
 	int difficulty = 0;
 
 	if (!p2_IsHuman && result < 2) {
-		DifficultySelection menu2(&screenGraphic, &pointer);
+		DifficultySelection menu2(screenGraphic, pointer);
 		menu2.draw();
 		// 0 = random, 1 = winningMove, 2 = winningMove, losingMove
 		difficulty = menu2.getResult();
@@ -49,7 +49,7 @@ int main() {
 
 	// Spieler und Spiel erstellen
 	if (result == 2) {
-		HandshakeScreen hsscreen(&screenGraphic, &pointer);
+		HandshakeScreen hsscreen(screenGraphic, pointer);
 		p1 = new NetworkPlayer("You are", &pointer, &hsscreen);
 		p2 = new NetworkPlayer("Your rival is", &pointer, p1->getEnemy());
 
@@ -73,42 +73,28 @@ int main() {
 		p2 = new AI("Circle is", difficulty);
 	}
 	screenGraphic.clear();
-	Grid ticTacToeGrid(&screenGraphic);
+	Grid ticTacToeGrid(screenGraphic);
 	ticTacToeGrid.draw(); // Spielfeld zeichnen
-	TicTacToeGame game(p1, p2, &ticTacToeGrid, &uart);
+	TicTacToeGame game(p1, p2, ticTacToeGrid, &uart);
 
 	// Spiel beginnen
 	uart.set("\r\n\n\n\nLet the game begin!\r\n");
 
 	//game.drawTurn();
 	screenGraphic.refresh();
-	EndscreenSelection endscreen(&screenGraphic, &pointer);
+	EndscreenSelection endscreen(screenGraphic, pointer);
 
 	bool switcher = false;
 	Player* turn = p1;
 	while (true) {
-		/*while(!game.setMove(turn->getMove(&game), true));
-			if (game.checkWinner(true)) {
-				endscreen.setWinner(turn->getWin());
-				break;
-			}
-
-			turn = switcher ? p1 : p2;
-			switcher != switcher;*/
-
-		while(!game.setMove(p1->getMove(&game), true));
-
+		while(!game.setMove(turn->getMove(&game), true));
 		if (game.checkWinner(true)) {
-			endscreen.setWinner(p1->getWin());
+			endscreen.setWinner(turn->getWin());
 			break;
 		}
 
-		while(!game.setMove(p2->getMove(&game), true));
-
-		if (game.checkWinner(true)) {
-			endscreen.setWinner(p2->getWin());
-			break;
-		}
+		turn = switcher ? p1 : p2;
+		switcher = !switcher;
 	}
 	endscreen.draw();
 	endscreen.getResult();

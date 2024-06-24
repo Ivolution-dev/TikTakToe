@@ -27,7 +27,7 @@ int Human::getHumanMove(TicTacToeGame* game, Pointer* pointer) {
 	while (true) {
 		Pointer::Data point = pointer->get();
 		if (point.flags & Pointer::Data::CTRL_DWN) {
-			int pos = game->grid->getRect(point.posX, point.posY);
+			int pos = game->grid.getRect(point.posX, point.posY);
 			char buffer[100]; // Puffer für den formatierten String
 			// Formatierung des Strings in den Puffer
 			snprintf(buffer, sizeof(buffer), "Pos:%4d,%4d\tField:%2d\r\n", point.posX, point.posY, pos);

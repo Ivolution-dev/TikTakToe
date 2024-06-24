@@ -9,8 +9,7 @@ using namespace EmbSysLib::Ctrl;
 using namespace EmbSysLib::Mod;
 
 
-TicTacToeGame::TicTacToeGame(Player* p1, Player* p2, Grid *grid, Uart_Mcu *uart)
-: p1(p1), p2(p2), crossTurn(true), grid(grid), screenGraphic(grid->screenGraphic), uart(uart) {
+TicTacToeGame::TicTacToeGame(Player* p1, Player* p2, Grid grid, Uart_Mcu *uart) : p1(p1), p2(p2), crossTurn(true), grid(grid), screenGraphic(grid.getScreenGraphic()), uart(uart) {
 	for (int i = 0; i < 3; ++i) {
 		crosses[i] = nullptr; // Leeres Feld für Kreuze
 		circles[i] = nullptr; // Leeres Feld für Kreise
@@ -47,8 +46,8 @@ bool TicTacToeGame::setMove(int pos, bool draw) {
 	crossTurn = !crossTurn; // Wechsel zwischen Kreuz und Kreis
 
 	if (draw) {
-		screenGraphic->clear();
-		grid->draw();
+		screenGraphic.clear();
+		grid.draw();
 		showState();
 		for (int i = 0; i < 3; ++i) {
 			if (crosses[i] != nullptr)
@@ -58,7 +57,7 @@ bool TicTacToeGame::setMove(int pos, bool draw) {
 		}
 		drawTurn();
 
-		screenGraphic->refresh();
+		screenGraphic.refresh();
 	}
 	return true;
 }
@@ -66,7 +65,7 @@ bool TicTacToeGame::setMove(int pos, bool draw) {
 void TicTacToeGame::drawTurn() {
 	char buffer[100];
 	snprintf(buffer, sizeof(buffer), "%s on it", crossTurn ? p1->getWin().c_str() : p2->getWin().c_str());
-	screenGraphic->drawText(0, 460, buffer);
+	screenGraphic.drawText(0, 460, buffer);
 }
 
 bool TicTacToeGame::posIsEmpty(int pos) {

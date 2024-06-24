@@ -14,12 +14,12 @@ using namespace EmbSysLib::Mod;
 
 class TicTacToeGame {
 public:
-	TicTacToeGame(Player* p1, Player* p2, Grid *grid, Uart_Mcu *uart);
+	TicTacToeGame(Player* p1, Player* p2, Grid grid, Uart_Mcu *uart);
 	bool setMove(int pos, bool draw);
 	bool posIsEmpty(int pos);
 	bool checkWinner(bool draw);
 	bool getCrossTurn();
-	Grid *grid;
+	Grid grid;
 	Uart_Mcu *uart;
 private:
 	void showState();
@@ -29,7 +29,7 @@ private:
 	bool crossTurn;
 	Player *p1;
 	Player *p2;
-	ScreenGraphic *screenGraphic;
+	ScreenGraphic screenGraphic;
 	void drawTurn();
 };
 
