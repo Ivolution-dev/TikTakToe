@@ -35,6 +35,11 @@ void Cross::setDark() {
     farbe = Color::DarkRed;
 }
 
+void Cross::setWin() {
+    farbe = Color::Yellow;
+    draw();
+}
+
 void Cross::del() {
     farbe = Color::Black;
     draw();
@@ -64,6 +69,11 @@ int Circle::getBoxNumber() const {
 
 void Circle::setDark() {
     farbe = Color::DarkBlue;
+}
+
+void Circle::setWin() {
+    farbe = Color::Yellow;
+    draw();
 }
 
 void Circle::del() {

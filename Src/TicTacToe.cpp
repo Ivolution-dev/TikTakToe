@@ -89,6 +89,11 @@ bool TicTacToeGame::checkWinner(bool draw) {
 	for (int i = 0; i < 8; ++i) {
 		if (inArray(crosses[0]->getBoxNumber(), &winCombos[i]) && inArray(crosses[1]->getBoxNumber(), &winCombos[i]) && inArray(crosses[2]->getBoxNumber(), &winCombos[i])) {
 			if (draw) {
+				for (int j = 0; j < 3; ++j) {
+					crosses[j]->setWin();
+				}
+				System::delayMilliSec(5);
+				screenGraphic.refresh();
 				char buffer[100];
 				snprintf(buffer, sizeof(buffer), "%s the winner!\r\n", p1->getWin().c_str());
 				uart->set(buffer);
@@ -98,6 +103,11 @@ bool TicTacToeGame::checkWinner(bool draw) {
 		}
 		if (inArray(circles[0]->getBoxNumber(), &winCombos[i]) && inArray(circles[1]->getBoxNumber(), &winCombos[i]) && inArray(circles[2]->getBoxNumber(), &winCombos[i])) {
 			if (draw) {
+				for (int j = 0; j < 3; ++j) {
+					circles[j]->setWin();
+				}
+				System::delayMilliSec(5);
+				screenGraphic.refresh();
 				char buffer[100];
 				snprintf(buffer, sizeof(buffer), "%s the winner!\r\n", p2->getWin().c_str());
 				uart->set(buffer);

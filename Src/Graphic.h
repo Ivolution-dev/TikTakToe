@@ -27,6 +27,7 @@ public:
     void draw() const override;
     int getBoxNumber() const;
     void setDark();
+    void setWin();
     void del();
 private:
     int boxNumber; // Variable to store the box number
@@ -39,6 +40,7 @@ public:
     void draw() const override;
     int getBoxNumber() const;
     void setDark();
+    void setWin();
     void del();
 private:
     int boxNumber; // Variable to store the box number
