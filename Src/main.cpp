@@ -82,7 +82,6 @@ int main() {
 	// Spiel beginnen
 	uart.set("\r\n\n\n\nLet the game begin!\r\n");
 
-	//game.drawTurn();
 	screenGraphic.refresh();
 	EndscreenSelection endscreen(screenGraphic, pointer);
 
