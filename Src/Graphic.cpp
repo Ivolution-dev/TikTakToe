@@ -177,7 +177,6 @@ EndscreenSelection::EndscreenSelection(ScreenGraphic &screenGraphic, Pointer &po
 
 void EndscreenSelection::draw() const {
     screenGraphic.clear();
-    //screenGraphic.drawRectangle(200, 130, 400, 100, 1, Color::White);
     char buffer[100];
     snprintf(buffer, sizeof(buffer), "%s the winner!", winner.c_str());
     screenGraphic.drawText(220, 170, buffer);
