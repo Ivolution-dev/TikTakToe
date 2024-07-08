@@ -111,15 +111,16 @@ int Grid::getRect(int x, int y) const {
 }
 
 // PlayerSelection class implementation
-PlayerSelection::PlayerSelection(ScreenGraphic &screenGraphic, Pointer &pointer) : Menu(screenGraphic, pointer) {}
+PlayerSelection::PlayerSelection(ScreenGraphic &screenGraphic, Pointer &pointer) : Menu(screenGraphic, pointer) {
+	menu[0] = new SelectBox(screenGraphic, 200, 75, 400, 100, "Gegen Freund");
+	menu[1] = new SelectBox(screenGraphic, 200, 185, 400, 100, "Gegen Computer");
+	menu[2] = new SelectBox(screenGraphic, 200, 295, 400, 100, "Netzwerk Spiel");
+}
 
 void PlayerSelection::draw() const {
-    screenGraphic.drawRectangle(200, 75, 400, 100, 1, Color::White);
-    screenGraphic.drawText(250, 115, "Gegen Freund");
-    screenGraphic.drawRectangle(200, 185, 400, 100, 1, Color::White);
-    screenGraphic.drawText(250, 225, "Gegen Computer");
-    screenGraphic.drawRectangle(200, 295, 400, 100, 1, Color::White);
-    screenGraphic.drawText(250, 335, "Netzwerk Spiel");
+	for (int i = 0; i < 3; i++) {
+		menu[i]->draw();
+	}
     screenGraphic.refresh();
 }
 
@@ -127,61 +128,55 @@ int PlayerSelection::getResult() {
     while (true) {
         Pointer::Data point = pointer.get();
         if (point.flags & Pointer::Data::CTRL_DWN) {
-            if (point.posX >= 200 && point.posX <= 600 && point.posY >= 75 && point.posY <= 175) {
-                screenGraphic.clear();
-                return 0;
-            } else if (point.posX >= 200 && point.posX <= 600 && point.posY >= 185 && point.posY <= 285) {
-                screenGraphic.clear();
-                return 1;
-            } else if (point.posX >= 200 && point.posX <= 600 && point.posY >= 295 && point.posY <= 395) {
-                screenGraphic.clear();
-                return 2;
-            }
+        	for (int i = 0; i < 3; i++) {
+        		if (menu[i]->checkTouch(point)) {
+        			screenGraphic.clear();
+        			return i;
+        		}
+        	}
         }
     }
 }
 
 // DifficultySelection class implementation
-DifficultySelection::DifficultySelection(ScreenGraphic &screenGraphic, Pointer &pointer) : Menu(screenGraphic, pointer) {}
+DifficultySelection::DifficultySelection(ScreenGraphic &screenGraphic, Pointer &pointer) : Menu(screenGraphic, pointer) {
+	menu[0] = new SelectBox(screenGraphic, 200, 75, 400, 100, "Inkompetent");
+	menu[1] = new SelectBox(screenGraphic, 200, 185, 400, 100, "Realistisch");
+	menu[2] = new SelectBox(screenGraphic, 200, 295, 400, 100, "Gut");
+}
 
 void DifficultySelection::draw() const {
-    screenGraphic.drawRectangle(200, 75, 400, 100, 1, Color::White);
-    screenGraphic.drawText(250, 115, "Inkompetent");
-    screenGraphic.drawRectangle(200, 185, 400, 100, 1, Color::White);
-    screenGraphic.drawText(250, 225, "Realistisch");
-    screenGraphic.drawRectangle(200, 295, 400, 100, 1, Color::White);
-    screenGraphic.drawText(250, 335, "Gut");
-    screenGraphic.refresh();
+	for (int i = 0; i < 3; i++) {
+		menu[i]->draw();
+	}
+	screenGraphic.refresh();
 }
 
 int DifficultySelection::getResult() {
-    while (true) {
-        Pointer::Data point = pointer.get();
-        if (point.flags & Pointer::Data::CTRL_DWN) {
-            if (point.posX >= 200 && point.posX <= 600 && point.posY >= 75 && point.posY <= 175) {
-                screenGraphic.clear();
-                return 0;
-            } else if (point.posX >= 200 && point.posX <= 600 && point.posY >= 185 && point.posY <= 285) {
-                screenGraphic.clear();
-                return 1;
-            } else if (point.posX >= 200 && point.posX <= 600 && point.posY >= 295 && point.posY <= 395) {
-                screenGraphic.clear();
-                return 2;
-            }
-        }
-    }
+	while (true) {
+	    Pointer::Data point = pointer.get();
+	    if (point.flags & Pointer::Data::CTRL_DWN) {
+	    	for (int i = 0; i < 3; i++) {
+	       		if (menu[i]->checkTouch(point)) {
+	       			screenGraphic.clear();
+	       			return i;
+	       		}
+	       	}
+	    }
+	}
 }
 
 // EndscreenSelection class implementation
-EndscreenSelection::EndscreenSelection(ScreenGraphic &screenGraphic, Pointer &pointer) : Menu(screenGraphic, pointer) {}
+EndscreenSelection::EndscreenSelection(ScreenGraphic &screenGraphic, Pointer &pointer) : Menu(screenGraphic, pointer) {
+	menu = new SelectBox(screenGraphic, 200, 250, 400, 100, "Nochmal spielen");
+}
 
 void EndscreenSelection::draw() const {
     screenGraphic.clear();
     char buffer[100];
     snprintf(buffer, sizeof(buffer), "%s the winner!", winner.c_str());
     screenGraphic.drawText(220, 170, buffer);
-    screenGraphic.drawRectangle(200, 250, 400, 100, 1, Color::White);
-    screenGraphic.drawText(250, 290, "Nochmal spielen");
+    menu->draw();
     screenGraphic.refresh();
 }
 
@@ -191,12 +186,10 @@ void EndscreenSelection::setWinner(std::string winner) {
 
 int EndscreenSelection::getResult() {
     while (true) {
-        Pointer::Data point = pointer.get();
-        if (point.flags & Pointer::Data::CTRL_DWN) {
-            if (point.posX >= 200 && point.posX <= 600 && point.posY >= 250 && point.posY <= 350) {
-                System::reset();
-            }
-        }
+    	Pointer::Data point = pointer.get();
+    	if (point.flags & Pointer::Data::CTRL_DWN) {
+    	    System::reset();
+    	}
     }
 }
 
@@ -215,4 +208,17 @@ void HandshakeScreen::draw() const {
     screenGraphic.drawText(250, 225, buffer);
     dots = (dots + 1) % 4;
     screenGraphic.refresh();
+}
+
+// SelectBox class implementation
+SelectBox::SelectBox(ScreenGraphic &screenGraphic, WORD x, WORD y, WORD w, WORD h, const char *format) : GraphicsObject(screenGraphic), x(x), y(y), w(w), h(h), format(format) {}
+
+
+void SelectBox::draw() const {
+    screenGraphic.drawRectangle(x, y, w, h, 1, Color::White);
+    screenGraphic.drawText(x + 50, y + 50, format);
+}
+
+bool SelectBox::checkTouch(Pointer::Data point) {
+    return (point.posX >= x && point.posX <= x + w && point.posY >= y && point.posY <= y + h);
 }

@@ -63,11 +63,23 @@ protected:
     Pointer &pointer;
 };
 
+class SelectBox : public GraphicsObject{
+public:
+	SelectBox(ScreenGraphic &screenGraphic, WORD x, WORD y, WORD w, WORD h, const char *format);
+	void draw() const override;
+	bool checkTouch(Pointer::Data point);
+private:
+	WORD x, y, w, h;
+	const char *format;
+};
+
 class PlayerSelection : public Menu {
 public:
     PlayerSelection(ScreenGraphic &screenGraphic, Pointer &pointer);
     void draw() const override;
     int getResult();
+private:
+    SelectBox *menu[3];
 };
 
 class DifficultySelection : public Menu {
@@ -75,6 +87,8 @@ public:
     DifficultySelection(ScreenGraphic &screenGraphic, Pointer &pointer);
     void draw() const override;
     int getResult();
+private:
+    SelectBox *menu[3];
 };
 
 class EndscreenSelection : public Menu {
@@ -84,6 +98,8 @@ public:
     void draw() const override;
     std::string winner;
     int getResult();
+private:
+    SelectBox *menu;
 };
 
 class HandshakeScreen : public Menu {
@@ -92,6 +108,7 @@ public:
     void draw() const override;
 private:
     mutable int dots;
+    SelectBox *menu;
 };
 
 #endif
